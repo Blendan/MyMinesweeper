@@ -9,7 +9,9 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
+import javafx.scene.text.TextAlignment;
 
 import java.net.URL;
 import java.util.ArrayList;
@@ -250,8 +252,11 @@ public class Control implements Initializable
 		{
 			aufdeken();
 			Label temp = new Label("Gewonnen");
-			temp.setFont(new Font(mainPane.getWidth()/6));
+			temp.setFont(new Font(80));
 			temp.setAlignment(Pos.CENTER);
+			temp.setTextAlignment(TextAlignment.CENTER);
+			temp.setPrefWidth(10000);
+			temp.setTextFill(Color.BLACK);
 			mainPane.setBottom(temp);
 			mainPane.getBottom().setStyle("-fx-background-color: green");
 		}
@@ -261,7 +266,10 @@ public class Control implements Initializable
 	{
 		aufdeken();
 		Label temp = new Label("Verloren");
-		temp.setFont(new Font(mainPane.getWidth()/6));
+		temp.setFont(new Font(80));
+		temp.setTextAlignment(TextAlignment.CENTER);
+		temp.setPrefWidth(10000);
+		temp.setTextFill(Color.BLACK);
 		mainPane.setBottom(temp);
 		temp.setAlignment(Pos.CENTER);
 		mainPane.getBottom().setStyle("-fx-background-color: red");
@@ -369,7 +377,7 @@ public class Control implements Initializable
 			{
 				if (feldID + i+j >= 0 && feldID + i+j < height * width && !(feldID%width == 0 && i == -1) && !(feldID%width == width-1 && i == 1))
 				{
-					if (!feld.get(feldID + i+j).getMakirt() && feld.get(feldID + i+j).getText().equals(""))
+					if (!feld.get(feldID + i+j).getMakirt() && !feld.get(feldID + i+j).isAufgedekt())
 					{
 						if (feld.get(feldID + i+j).getSpeicherText().equals("0"))
 						{

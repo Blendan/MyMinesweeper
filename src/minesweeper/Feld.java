@@ -14,6 +14,7 @@ public class Feld extends Button
 	private String styleMarked = "-fx-background-color: blue";
 	private boolean bombe = false;
 	private boolean makirt = false;
+	private boolean aufgedekt = false;
 
 	public Feld(int x,int y)
 	{
@@ -22,6 +23,7 @@ public class Feld extends Button
 		this.setText("");
 		this.setStyle(styleNormal);
 		this.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
+		this.setTextFill(Color.BLACK);
 	}
 
 	public boolean IstFeld(int x, int y)
@@ -112,6 +114,7 @@ public class Feld extends Button
 	{
 		this.setText(speicherText);
 		this.setDisable(false);
+		aufgedekt = true;
 		if(bombe)
 		{
 			this.setStyle(styleBombe);
@@ -150,5 +153,10 @@ public class Feld extends Button
 		}
 
 		return 0;
+	}
+
+	public boolean isAufgedekt()
+	{
+		return aufgedekt;
 	}
 }
