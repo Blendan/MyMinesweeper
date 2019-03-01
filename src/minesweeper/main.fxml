@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.FlowPane?>
+
+<BorderPane fx:id="mainPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="550.0" prefWidth="350.0" style="-fx-background-color: black;" stylesheets="@master.css" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="minesweeper.Control">
+   <center>
+
+   </center>
+   <top>
+      <FlowPane alignment="CENTER" columnHalignment="CENTER" prefHeight="200.0" prefWidth="200.0" styleClass="menue" BorderPane.alignment="CENTER">
+         <children>
+            <Label text="Höhe" textFill="WHITE">
+               <FlowPane.margin>
+                  <Insets left="10.0" />
+               </FlowPane.margin></Label>
+            <TextField fx:id="textAreaHeight" styleClass="textInput">
+               <FlowPane.margin>
+                  <Insets left="10.0" right="10.0" />
+               </FlowPane.margin></TextField>
+            <Label layoutX="10.0" layoutY="16.0" text="Breite" textFill="WHITE" />
+            <TextField fx:id="textAreaWidth" layoutX="52.0" layoutY="10.0" styleClass="textInput">
+               <FlowPane.margin>
+                  <Insets left="10.0" right="10.0" />
+               </FlowPane.margin></TextField>
+            <Label layoutX="276.0" layoutY="16.0" text="Anzahl" textFill="WHITE" />
+            <TextField fx:id="textAreaCount" layoutX="318.0" layoutY="10.0" styleClass="textInput">
+               <FlowPane.margin>
+                  <Insets left="10.0" />
+               </FlowPane.margin></TextField>
+            <Button fx:id="btnStart" mnemonicParsing="false" text="Starten">
+               <FlowPane.margin>
+                  <Insets left="20.0" />
+               </FlowPane.margin></Button>
+         </children>
+      </FlowPane>
+   </top>
+</BorderPane>
