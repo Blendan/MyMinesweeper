@@ -40,8 +40,6 @@ public class Control implements Initializable
 	private int height;
 	private int width;
 	private int bombengefunden;
-	private int felderAufgedeckt;
-	private int bombenZaehler;
 	private int anzahlBombenGesamt;
 	private GridPane gridBoxMinen;
 
@@ -54,7 +52,7 @@ public class Control implements Initializable
 	@Override
 	public void initialize(URL location, ResourceBundle resources)
 	{
-		btnStart.setOnAction((event)->{startGame();});
+		btnStart.setOnAction((event)->startGame());
 	}
 
 	private void startGame()
@@ -79,13 +77,12 @@ public class Control implements Initializable
 		{
 			mainPane.setBottom(null);
 
-			felderAufgedeckt = 0;
 			bombengefunden = 0;
 			gridBoxMinen = new GridPane();
 			feld = new ArrayList<>();
 
-			gridBoxMinen.heightProperty().addListener((e)->{scaleFeld();});
-			gridBoxMinen.widthProperty().addListener((e)->{scaleFeld();});
+			gridBoxMinen.heightProperty().addListener((e)-> scaleFeld());
+			gridBoxMinen.widthProperty().addListener((e)-> scaleFeld());
 
 			RowConstraints rc;
 			ColumnConstraints cc;
@@ -135,7 +132,6 @@ public class Control implements Initializable
 									{
 										zeigeumligend(temp.getX(),temp.getY());
 									}
-									felderAufgedeckt ++;
 								}
 							}
 
@@ -173,7 +169,7 @@ public class Control implements Initializable
 
 			for(int i = 0;i<feld.size();i++)
 			{
-				bombenZaehler = 0;
+				int bombenZaehler = 0;
 
 				if (!feld.get(i).getBombe())
 				{
@@ -277,9 +273,9 @@ public class Control implements Initializable
 
 	private void aufdeken()
 	{
-		for(int i = 0; i < feld.size(); i ++)
+		for (Feld feld1 : feld)
 		{
-			feld.get(i).zeigen();
+			feld1.zeigen();
 		}
 	}
 
@@ -383,12 +379,10 @@ public class Control implements Initializable
 						{
 							feld.get(feldID + i+j).zeigen();
 							zeigeumligend(feld.get(feldID + i+j).getX(), feld.get(feldID + i+j).getY());
-							felderAufgedeckt++;
 						}
 						else if (!feld.get(feldID + i+j).getSpeicherText().equals("X"))
 						{
 							feld.get(feldID + i+j).zeigen();
-							felderAufgedeckt++;
 						}
 
 					}
