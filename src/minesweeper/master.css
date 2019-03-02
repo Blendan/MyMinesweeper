@@ -18,9 +18,17 @@
     -fx-background-image: url("image/blank.jpg");
 }
 
-.feld-flag {
-    -fx-background-image: url("image/flag.jpg");
+.feld-blank:hover {
+    -fx-background-image: url("image/blank_hover.jpg");
 }
+
+.feld-flag {
+     -fx-background-image: url("image/flag.jpg");
+ }
+
+ .feld-flag:hover {
+     -fx-background-image: url("image/flag_hover.jpg");
+ }
 
 .feld-mine {
     -fx-background-image: url("image/mine.jpg");
