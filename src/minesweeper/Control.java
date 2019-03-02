@@ -8,9 +8,10 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseButton;
-import javafx.scene.layout.*;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
+import javafx.scene.layout.*;
 import javafx.scene.text.TextAlignment;
 
 import java.net.URL;
@@ -218,14 +219,17 @@ public class Control implements Initializable
 				return (int)gridBoxMinen.getHeight() / width;
 			}
 		}
-		else  if (height > width*(gridBoxMinen.getHeight()/gridBoxMinen.getWidth()))
+		else  if (gridBoxMinen.getHeight() > gridBoxMinen.getWidth()*((double) height/(double)width))
 		{
-			return (int)gridBoxMinen.getHeight()-70 /height;
+
+			return (int)gridBoxMinen.getWidth() /width;
 		}
 		else
 		{
-			return (int)gridBoxMinen.getWidth() / width;
+
+			return (int)gridBoxMinen.getHeight() / height;
 		}
+
 	}
 
 	private void scaleFeld()
