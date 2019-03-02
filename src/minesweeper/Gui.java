@@ -8,6 +8,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
+
 public class Gui extends Application
 {
 	public Gui()
@@ -18,6 +19,7 @@ public class Gui extends Application
 	@Override
 	public void start(Stage primaryStage)
 	{
+
 
 		Parent root = null;
 		try
