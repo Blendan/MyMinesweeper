@@ -8,6 +8,7 @@ public class Feld extends Button
 	private int x,y;
 	String speicherText = "";
 	private String styleBombe = "feld-mine";
+	private String styleBombeNotFound = "feld-mine-notFound";
 	private String styleNormal = "feld-blank";
 	private String styleNumber = "feld-green";
 	private String styleMarked = "feld-flag";
@@ -21,7 +22,6 @@ public class Feld extends Button
 		this.y = y;
 		this.setText("");
 		this.setStyle(styleNormal);
-		//this.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
 		this.setTextFill(Color.BLACK);
 
 		setClass(styleNormal);
@@ -37,7 +37,6 @@ public class Feld extends Button
 
 	public void setBackgroundSize(int size)
 	{
-		;
 		this.setStyle("-fx-background-size: "+size+" "+size);
 	}
 
@@ -125,13 +124,20 @@ public class Feld extends Button
 		}
 	}
 
-	public void zeigen()
+	public void zeigen(boolean isFinal)
 	{
 		this.setDisable(true);
 		aufgedekt = true;
-		if(bombe)
+		if (bombe)
 		{
-			this.setClass(styleBombe);
+			if (isFinal&&!makirt)
+			{
+				this.setClass(styleBombeNotFound);
+			}
+			else
+			{
+				this.setClass(styleBombe);
+			}
 		}
 		else
 		{

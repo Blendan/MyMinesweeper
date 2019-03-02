@@ -127,7 +127,7 @@ public class Control implements Initializable
 								}
 								else
 								{
-									temp.zeigen();
+									temp.zeigen(false);
 									if(temp.getSpeicherText().equals("0"))
 									{
 										zeigeumligend(temp.getX(),temp.getY());
@@ -277,7 +277,7 @@ public class Control implements Initializable
 	{
 		for (Feld feld1 : feld)
 		{
-			feld1.zeigen();
+			feld1.zeigen(true);
 		}
 	}
 
@@ -379,12 +379,12 @@ public class Control implements Initializable
 					{
 						if (feld.get(feldID + i+j).getSpeicherText().equals("0"))
 						{
-							feld.get(feldID + i+j).zeigen();
+							feld.get(feldID + i+j).zeigen(false);
 							zeigeumligend(feld.get(feldID + i+j).getX(), feld.get(feldID + i+j).getY());
 						}
 						else if (!feld.get(feldID + i+j).getSpeicherText().equals("X"))
 						{
-							feld.get(feldID + i+j).zeigen();
+							feld.get(feldID + i+j).zeigen(false);
 						}
 
 					}

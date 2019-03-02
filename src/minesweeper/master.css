@@ -34,6 +34,10 @@
     -fx-background-image: url("image/mine.jpg");
 }
 
+.feld-mine-notFound {
+    -fx-background-image: url("image/mine_notFound.jpg");
+}
+
 .feld-0 {
     -fx-background-image: url("image/0.jpg");
 }
