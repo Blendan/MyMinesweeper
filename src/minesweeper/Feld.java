@@ -1,17 +1,16 @@
 package minesweeper;
 
 import javafx.scene.control.Button;
-import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 
 public class Feld extends Button
 {
 	private int x,y;
 	String speicherText = "";
-	private String styleBombe = "-fx-background-color: red";
-	private String styleNormal = "-fx-background-color: gray";
-	private String styleNumber = "-fx-background-color: green";
-	private String styleMarked = "-fx-background-color: blue";
+	private String styleBombe = "feld-mine";
+	private String styleNormal = "feld-blank";
+	private String styleNumber = "feld-green";
+	private String styleMarked = "feld-flag";
 	private boolean bombe = false;
 	private boolean makirt = false;
 	private boolean aufgedekt = false;
@@ -22,8 +21,24 @@ public class Feld extends Button
 		this.y = y;
 		this.setText("");
 		this.setStyle(styleNormal);
-		this.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
+		//this.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
 		this.setTextFill(Color.BLACK);
+
+		setClass(styleNormal);
+
+	}
+
+	private void setClass(String style)
+	{
+		this.getStyleClass().clear();
+		this.getStyleClass().add("feld");
+		this.getStyleClass().add(style);
+	}
+
+	public void setBackgroundSize(int size)
+	{
+		;
+		this.setStyle("-fx-background-size: "+size+" "+size);
 	}
 
 	public boolean IstFeld(int x, int y)
@@ -77,31 +92,31 @@ public class Feld extends Button
 			switch (speicherText)
 			{
 				case "0":
-					styleNumber = "-fx-background-color: green";
+					styleNumber = "feld-0";
 					break;
 				case "1":
-					styleNumber = "-fx-background-color: rgb(43, 203, 34)";
+					styleNumber = "feld-1";
 					break;
 				case "2":
-					styleNumber = "-fx-background-color: rgb(103, 203, 33)";
+					styleNumber = "feld-2";
 					break;
 				case "3":
-					styleNumber = "-fx-background-color: rgb(154, 203, 33)";
+					styleNumber = "feld-3";
 					break;
 				case "4":
-					styleNumber = "-fx-background-color: rgb(184, 203, 33)";
+					styleNumber = "feld-4";
 					break;
 				case "5":
-					styleNumber = "-fx-background-color: rgb(203, 201, 33)";
+					styleNumber = "feld-5";
 					break;
 				case "6":
-					styleNumber = "-fx-background-color: rgb(203, 181, 33)";
+					styleNumber = "feld-6";
 					break;
 				case "7":
-					styleNumber = "-fx-background-color: rgb(203, 150, 33)";
+					styleNumber = "feld-7";
 					break;
 				case "8":
-					styleNumber = "-fx-background-color: rgb(203, 99, 33)";
+					styleNumber = "feld-8";
 					break;
 
 			}
@@ -112,16 +127,15 @@ public class Feld extends Button
 
 	public void zeigen()
 	{
-		this.setText(speicherText);
-		this.setDisable(false);
+		this.setDisable(true);
 		aufgedekt = true;
 		if(bombe)
 		{
-			this.setStyle(styleBombe);
+			this.setClass(styleBombe);
 		}
 		else
 		{
-			this.setStyle(styleNumber);
+			this.setClass(styleNumber);
 		}
 	}
 
@@ -132,7 +146,7 @@ public class Feld extends Button
 			if (makirt)
 			{
 				makirt = false;
-				this.setStyle(styleNormal);
+				this.setClass(styleNormal);
 
 				if (bombe)
 				{
@@ -142,7 +156,7 @@ public class Feld extends Button
 			else
 			{
 				makirt = true;
-				this.setStyle(styleMarked);
+				this.setClass(styleMarked);
 
 
 				if (bombe)

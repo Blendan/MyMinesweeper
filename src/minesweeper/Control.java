@@ -102,7 +102,6 @@ public class Control implements Initializable
 			}
 
 			int index = 0;
-			int size = getFeldSize();
 
 			for (int i = 0; i < height; i ++)
 			{
@@ -139,9 +138,6 @@ public class Control implements Initializable
 
 						gewinnPruefung();
 					});
-
-					feld.get(index).setPrefHeight(size);
-					feld.get(index).setPrefWidth(size);
 
 					gridBoxMinen.add(feld.get(index),j,i);
 
@@ -203,6 +199,7 @@ public class Control implements Initializable
 
 				gridBoxMinen.setVisible(true);
 				gridBoxMinen.setAlignment(Pos.CENTER);
+				scaleFeld();
 				mainPane.setCenter(gridBoxMinen);
 			}
 		}
@@ -238,6 +235,7 @@ public class Control implements Initializable
 		for (Feld value: feld)
 		{
 			value.setPrefSize(size,size);
+			value.setBackgroundSize(size);
 		}
 	}
 

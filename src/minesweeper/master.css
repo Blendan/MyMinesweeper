@@ -8,3 +8,56 @@
     -fx-background-color: white;
     -fx-pref-width: 30px;
 }
+
+.feld {
+    -fx-background-repeat: stretch;
+    -fx-background-position: center center;
+}
+
+.feld-blank {
+    -fx-background-image: url("image/blank.jpg");
+}
+
+.feld-flag {
+    -fx-background-image: url("image/flag.jpg");
+}
+
+.feld-mine {
+    -fx-background-image: url("image/mine.jpg");
+}
+
+.feld-0 {
+    -fx-background-image: url("image/0.jpg");
+}
+
+.feld-1 {
+    -fx-background-image: url("image/1.jpg");
+}
+
+.feld-2 {
+    -fx-background-image: url("image/2.jpg");
+}
+
+.feld-3 {
+    -fx-background-image: url("image/3.jpg");
+}
+
+.feld-4 {
+    -fx-background-image: url("image/4.jpg");
+}
+
+.feld-5 {
+    -fx-background-image: url("image/5.jpg");
+}
+
+.feld-6 {
+    -fx-background-image: url("image/6.jpg");
+}
+
+.feld-7 {
+    -fx-background-image: url("image/7.jpg");
+}
+
+.feld-8 {
+    -fx-background-image: url("image/8.jpg");
+}
