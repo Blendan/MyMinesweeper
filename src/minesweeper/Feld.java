@@ -12,6 +12,7 @@ public class Feld extends Button
 	private String styleNormal = "feld-blank";
 	private String styleNumber = "feld-green";
 	private String styleMarked = "feld-flag";
+	private String styleWrong = "feld-wrong";
 	private boolean bombe = false;
 	private boolean makirt = false;
 	private boolean aufgedekt = false;
@@ -141,7 +142,14 @@ public class Feld extends Button
 		}
 		else
 		{
-			this.setClass(styleNumber);
+			if(makirt)
+			{
+				this.setClass(styleWrong);
+			}
+			else
+			{
+				this.setClass(styleNumber);
+			}
 		}
 	}
 

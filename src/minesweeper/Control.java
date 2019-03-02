@@ -9,9 +9,11 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.ColumnConstraints;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.RowConstraints;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
-import javafx.scene.layout.*;
 import javafx.scene.text.TextAlignment;
 
 import java.net.URL;
@@ -34,6 +36,9 @@ public class Control implements Initializable
 
 	@FXML
 	private BorderPane mainPane;
+
+	@FXML
+	private Label anzeigeTimer;
 
 	//-------------------------------------
 
@@ -58,9 +63,7 @@ public class Control implements Initializable
 
 	private void startGame()
 	{
-
 		boolean weiter = true;
-		anzahlBombenGesamt = 0;
 		try
 		{
 			height = Integer.parseInt(textAreaHeight.getText());
@@ -76,6 +79,7 @@ public class Control implements Initializable
 
 		if(height>0&&width>0 &&anzahlBombenGesamt>0 && anzahlBombenGesamt<height*width && weiter)
 		{
+
 			mainPane.setBottom(null);
 
 			bombengefunden = 0;
@@ -280,88 +284,6 @@ public class Control implements Initializable
 			feld1.zeigen(true);
 		}
 	}
-
-	// last es blos nicht frei!
-	/*
-	private void zeigeumligend(int x, int y)
-	{
-
-		for(int i = 0; i < feld.size(); i++)
-		{
-			for(int j = -1; j < 2; j+=2)
-			{
-				if(feld.get(i).IstFeld(x+j,y))
-				{
-
-					if(feld.get(i).getSpeicherText().equals("0")&&feld.get(i).getText().equals("")&&!feld.get(i).getMakirt())
-					{
-						feld.get(i).zeigen();
-						zeigeumligend(feld.get(i).getX(),feld.get(i).getY());
-						felderAufgedeckt ++;
-					}
-					else if(!feld.get(i).getSpeicherText().equals("X")&&feld.get(i).getText().equals("")&&!feld.get(i).getMakirt())
-					{
-						feld.get(i).zeigen();
-						felderAufgedeckt ++;
-					}
-				}
-
-				if(feld.get(i).IstFeld(x,y+j))
-				{
-
-					if(feld.get(i).getSpeicherText().equals("0")&&feld.get(i).getText().equals("")&&!feld.get(i).getMakirt())
-					{
-						feld.get(i).zeigen();
-						zeigeumligend(feld.get(i).getX(),feld.get(i).getY());
-						felderAufgedeckt ++;
-					}
-					else if(!feld.get(i).getSpeicherText().equals("X")&&feld.get(i).getText().equals("")&&!feld.get(i).getMakirt())
-					{
-						feld.get(i).zeigen();
-						felderAufgedeckt ++;
-					}
-				}
-
-
-				if(i!=feld.size()-1)
-				{
-					if (feld.get(i + 1).IstFeld(x + 1, y + j))
-					{
-						if (!feld.get(i + 1).getSpeicherText().equals("X") && !feld.get(i + 1).getSpeicherText().equals("0") && feld.get(i + 1).getText().equals("") && !feld.get(i + 1).getMakirt())
-						{
-							feld.get(i + 1).zeigen();
-							felderAufgedeckt++;
-						}
-						else if (!feld.get(i + 1).getSpeicherText().equals("X") && feld.get(i + 1).getSpeicherText().equals("0") && feld.get(i + 1).getText().equals("") && !feld.get(i + 1).getMakirt())
-						{
-							feld.get(i + 1).zeigen();
-							zeigeumligend(feld.get(i + 1).getX(),feld.get(i).getY());
-							felderAufgedeckt++;
-						}
-					}
-				}
-
-				if(i!=0)
-				{
-					if (feld.get(i - 1).IstFeld(x - 1, y + j))
-					{
-						if (!feld.get(i - 1).getSpeicherText().equals("X") && !feld.get(i - 1).getSpeicherText().equals("0") && feld.get(i - 1).getText().equals("") && !feld.get(i - 1).getMakirt())
-						{
-							feld.get(i - 1).zeigen();
-							felderAufgedeckt++;
-						}
-						else if (!feld.get(i - 1).getSpeicherText().equals("X") && feld.get(i + 1).getSpeicherText().equals("0") && feld.get(i - 1).getText().equals("") && !feld.get(i - 1).getMakirt())
-						{
-							feld.get(i - 1).zeigen();
-							zeigeumligend(feld.get(i- 1).getX(),feld.get(i).getY());
-							felderAufgedeckt++;
-						}
-					}
-				}
-			}
-		}
-	}
-	*/
 
 	//mehr performance whniger bugs
 	private void zeigeumligend(int x, int y)

@@ -73,3 +73,7 @@
 .feld-8 {
     -fx-background-image: url("image/8.jpg");
 }
+
+.feld-wrong {
+    -fx-background-image: url("image/wrong.jpg");
+}
