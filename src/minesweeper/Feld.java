@@ -166,6 +166,10 @@ public class Feld extends Button
 				{
 					return -1;
 				}
+				else
+				{
+					return 1;
+				}
 			}
 			else
 			{
@@ -176,6 +180,10 @@ public class Feld extends Button
 				if (bombe)
 				{
 					return 1;
+				}
+				else
+				{
+					return -1;
 				}
 			}
 		}
