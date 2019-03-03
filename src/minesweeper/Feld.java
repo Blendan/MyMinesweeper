@@ -1,18 +1,27 @@
 package minesweeper;
 
+import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.paint.Color;
 
 public class Feld extends Button
 {
 	private int x,y;
-	String speicherText = "";
+	private String speicherText = "";
+
+
 	private String styleBombe = "feld-mine";
 	private String styleBombeNotFound = "feld-mine-notFound";
 	private String styleNormal = "feld-blank";
 	private String styleNumber = "feld-green";
 	private String styleMarked = "feld-flag";
 	private String styleWrong = "feld-wrong";
+
+	private int prozent = 0;
+
+	private boolean goastMarkirt = false;
+
+
 	private boolean bombe = false;
 	private boolean makirt = false;
 	private boolean aufgedekt = false;
@@ -25,8 +34,46 @@ public class Feld extends Button
 		this.setStyle(styleNormal);
 		this.setTextFill(Color.BLACK);
 
+		this.setAlignment(Pos.CENTER);
+
 		setClass(styleNormal);
 
+	}
+
+	public void showProzent()
+	{
+		if(!makirt&&!aufgedekt)
+		{
+			if(prozent==-100)
+			{
+				this.setText("0");
+			}
+			else if(prozent==0)
+			{
+				this.setText("?");
+			}
+			else
+			{
+				this.setText(prozent+"");
+			}
+		}
+		prozent = 0;
+		goastMarkirt = false;
+	}
+
+	public void addProzent(int plus)
+	{
+		if(prozent != -100)
+		{
+			if (plus == -100)
+			{
+				prozent = -100;
+			}
+			else
+			{
+				prozent += plus;
+			}
+		}
 	}
 
 	private void setClass(String style)
@@ -89,45 +136,14 @@ public class Feld extends Button
 		this.speicherText = speicherText;
 		if(!speicherText.equals("X"))
 		{
-			switch (speicherText)
-			{
-				case "0":
-					styleNumber = "feld-0";
-					break;
-				case "1":
-					styleNumber = "feld-1";
-					break;
-				case "2":
-					styleNumber = "feld-2";
-					break;
-				case "3":
-					styleNumber = "feld-3";
-					break;
-				case "4":
-					styleNumber = "feld-4";
-					break;
-				case "5":
-					styleNumber = "feld-5";
-					break;
-				case "6":
-					styleNumber = "feld-6";
-					break;
-				case "7":
-					styleNumber = "feld-7";
-					break;
-				case "8":
-					styleNumber = "feld-8";
-					break;
-
-			}
-
-
+			styleNumber = "feld-"+speicherText;
 		}
 	}
 
 	public void zeigen(boolean isFinal)
 	{
 		this.setDisable(true);
+		this.setText("");
 		aufgedekt = true;
 		if (bombe)
 		{
@@ -155,7 +171,7 @@ public class Feld extends Button
 
 	public int makiren()
 	{
-		if(this.getText().equals(""))
+		if(!aufgedekt)
 		{
 			if (makirt)
 			{
@@ -173,6 +189,7 @@ public class Feld extends Button
 			}
 			else
 			{
+				this.setText("");
 				makirt = true;
 				this.setClass(styleMarked);
 
@@ -194,5 +211,26 @@ public class Feld extends Button
 	public boolean isAufgedekt()
 	{
 		return aufgedekt;
+	}
+
+
+	public void hideProzent()
+	{
+		this.setText("");
+	}
+
+	public boolean isGoastMarkirt()
+	{
+		return goastMarkirt;
+	}
+
+	public void setGoastMarkirt(boolean goastMarkirt)
+	{
+		this.goastMarkirt = goastMarkirt;
+	}
+
+	public int getProzent()
+	{
+		return prozent;
 	}
 }

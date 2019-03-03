@@ -26,6 +26,12 @@ public class Control implements Initializable
 	private Button btnStart;
 
 	@FXML
+	private Button btnLittleHelper;
+
+	@FXML
+	private Button btnLittleSolver;
+
+	@FXML
 	private TextField textAreaHeight;
 
 	@FXML
@@ -37,9 +43,6 @@ public class Control implements Initializable
 	@FXML
 	private BorderPane mainPane;
 
-	@FXML
-	private Label anzeigeTimer;
-
 	//-------------------------------------
 
 	private ArrayList<Feld> feld;
@@ -49,6 +52,11 @@ public class Control implements Initializable
 	private int anzahlBombenGesamt;
 	private GridPane gridBoxMinen;
 
+	private LittleHelper littleHelper;
+	private LittleSolver littleSolver;
+
+	private boolean isAktiveLittleSolver = false;
+	private boolean isAktiveLittleHelper = false;
 
 	public Control()
 	{
@@ -59,6 +67,63 @@ public class Control implements Initializable
 	public void initialize(URL location, ResourceBundle resources)
 	{
 		btnStart.setOnAction((event)->startGame());
+		btnLittleHelper.setOnAction((event -> tootleLittleHelper()));
+		btnLittleSolver.setOnAction((event -> tootleLittleSolver()));
+
+	}
+
+	private void tootleLittleSolver()
+	{
+		if(isAktiveLittleSolver)
+		{
+			isAktiveLittleSolver = false;
+
+			if(littleSolver!=null)
+			{
+				littleSolver.setRunning(false);
+			}
+
+			if(feld!=null)
+			{
+				for (Feld value: feld)
+				{
+					value.hideProzent();
+				}
+			}
+		}
+		else
+		{
+			if(littleHelper!=null)
+			{
+				littleHelper.startHelp();
+			}
+
+			isAktiveLittleSolver = true;
+		}
+	}
+
+	private void tootleLittleHelper()
+	{
+		if(isAktiveLittleHelper)
+		{
+			isAktiveLittleHelper = false;
+			if(feld!=null)
+			{
+				for (Feld value: feld)
+				{
+					value.hideProzent();
+				}
+			}
+		}
+		else
+		{
+			if(littleHelper!=null)
+			{
+				littleHelper.startHelp();
+			}
+
+			isAktiveLittleHelper = true;
+		}
 	}
 
 	private void startGame()
@@ -85,6 +150,9 @@ public class Control implements Initializable
 			bombengefunden = 0;
 			gridBoxMinen = new GridPane();
 			feld = new ArrayList<>();
+
+			littleHelper = new LittleHelper(feld,width,height);
+			littleSolver = new LittleSolver(feld,width,height,this);
 
 			gridBoxMinen.heightProperty().addListener((e)-> scaleFeld());
 			gridBoxMinen.widthProperty().addListener((e)-> scaleFeld());
@@ -120,6 +188,8 @@ public class Control implements Initializable
 						if (e.getButton() == MouseButton.SECONDARY && e.getClickCount() == 1)
 						{
 							bombengefunden += temp.makiren();
+
+
 						}
 						else if (e.getButton() == MouseButton.PRIMARY && e.getClickCount() == 1)
 						{
@@ -136,9 +206,22 @@ public class Control implements Initializable
 									{
 										zeigeumligend(temp.getX(),temp.getY());
 									}
+
+									if(isAktiveLittleSolver)
+									{
+										littleSolver.setRunning(false);
+										new Thread(littleSolver).start();
+									}
+
 								}
+
 							}
 
+						}
+
+						if(isAktiveLittleHelper)
+						{
+							littleHelper.startHelp();
 						}
 
 						gewinnPruefung();
@@ -248,7 +331,7 @@ public class Control implements Initializable
 	}
 
 
-	private void gewinnPruefung()
+	void gewinnPruefung()
 	{
 		if(bombengefunden == anzahlBombenGesamt)
 		{
@@ -286,7 +369,7 @@ public class Control implements Initializable
 	}
 
 	//mehr performance whniger bugs
-	private void zeigeumligend(int x, int y)
+	void zeigeumligend(int x, int y)
 	{
 		int feldID = width*x + y;
 		//System.out.println(feldID +"|"+x+"|"+y); //DEBUG
@@ -313,5 +396,25 @@ public class Control implements Initializable
 				}
 			}
 		}
+	}
+
+	public LittleSolver getLittleSolver()
+	{
+		return littleSolver;
+	}
+
+	public int getBombengefunden()
+	{
+		return bombengefunden;
+	}
+
+	public int getAnzahlBombenGesamt()
+	{
+		return anzahlBombenGesamt;
+	}
+
+	public void setBombengefunden(int bombengefunden)
+	{
+		this.bombengefunden = bombengefunden;
 	}
 }

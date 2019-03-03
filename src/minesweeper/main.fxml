@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.FlowPane?>
 
-<BorderPane fx:id="mainPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="550.0" prefWidth="350.0" style="-fx-background-color: rgb(74, 74, 74);" styleClass="window" stylesheets="@master.css" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="minesweeper.Control">
+<BorderPane fx:id="mainPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="550.0" prefWidth="500.0" style="-fx-background-color: rgb(74, 74, 74);" styleClass="window" stylesheets="@master.css" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="minesweeper.Control">
    <center>
 
    </center>
@@ -33,6 +33,14 @@
                   <Insets left="10.0" />
                </FlowPane.margin></TextField>
             <Button fx:id="btnStart" mnemonicParsing="false" styleClass="btn" text="Starten">
+               <FlowPane.margin>
+                  <Insets left="20.0" />
+               </FlowPane.margin></Button>
+            <Button fx:id="btnLittleHelper" mnemonicParsing="false" styleClass="btn" text="LittleHelper">
+               <FlowPane.margin>
+                  <Insets left="20.0" />
+               </FlowPane.margin></Button>
+            <Button fx:id="btnLittleSolver" mnemonicParsing="false" styleClass="btn" text="LittleSolver">
                <FlowPane.margin>
                   <Insets left="20.0" />
                </FlowPane.margin></Button>
