@@ -1,12 +1,31 @@
 .menue {
-    -fx-background-color: black;
+    -fx-padding: 10px;
     -fx-pref-height: 30px;
-    -fx-color: white;
+    -fx-background-color: rgb(122, 122, 122);
 }
 
 .textInput {
-    -fx-background-color: white;
+    -fx-border: none;
+    -fx-background-color: none;
+    -fx-background-image: url("image/blank_hover.jpg");
+    -fx-background-repeat: stretch;
+    -fx-background-position: center center;
+    -fx-background-size: 30px 30px;
     -fx-pref-width: 30px;
+    -fx-pref-height: 30px;
+}
+
+.btn {
+    -fx-border: none;
+    -fx-background-color: none;
+    -fx-background-image: url("image/blank.jpg");
+    -fx-background-repeat: stretch;
+    -fx-background-position: center center;
+    -fx-background-size: 100% 100%;
+}
+
+.btn:hover {
+    -fx-background-image: url("image/blank_hover.jpg");
 }
 
 .feld {
