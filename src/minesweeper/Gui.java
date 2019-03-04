@@ -23,6 +23,7 @@ public class Gui extends Application
 		if(control.getLittleSolver()!=null)
 		{
 			control.getLittleSolver().setRunning(false);
+			control.stopTimer();
 		}
 	}
 

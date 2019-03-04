@@ -5,7 +5,8 @@ import java.util.ArrayList;
 public class LittleHelper
 {
 	protected ArrayList<Feld> feld;
-	private int width, height;
+	protected int width;
+	protected int height;
 
 	public LittleHelper(ArrayList<Feld> feld, int width, int height)
 	{
@@ -14,13 +15,8 @@ public class LittleHelper
 		this.height = height;
 	}
 
-	public void startHelp()
+	void startHelp()
 	{
-		for (Feld value: feld)
-		{
-			pruefeUmliegend(value);
-		}
-
 		for (Feld value: feld)
 		{
 			pruefeUmliegend(value);
@@ -33,8 +29,9 @@ public class LittleHelper
 
 	}
 
-	protected void pruefeUmliegend(Feld value)
+	protected boolean pruefeUmliegend(Feld value)
 	{
+		boolean gotOne = false;
 		int felderOffen = 9;
 		int felderMakirt = 0;
 
@@ -79,6 +76,7 @@ public class LittleHelper
 			else if(felderMakirt>=bombenToFind)
 			{
 				prozent = -100;
+				gotOne = true;
 			}
 
 			for (int i = -1; i < 2; i++)
@@ -94,6 +92,7 @@ public class LittleHelper
 							if(prozent==100)
 							{
 								feld.get(feldID + i + j).setGoastMarkirt(true);
+								gotOne = true;
 							}
 						}
 
@@ -102,5 +101,6 @@ public class LittleHelper
 			}
 
 		}
+		return gotOne;
 	}
 }

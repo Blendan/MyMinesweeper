@@ -26,7 +26,7 @@ public class Feld extends Button
 	private boolean makirt = false;
 	private boolean aufgedekt = false;
 
-	public Feld(int x,int y)
+	Feld(int x,int y)
 	{
 		this.x = x;
 		this.y = y;
@@ -40,13 +40,13 @@ public class Feld extends Button
 
 	}
 
-	public void showProzent()
+	void showProzent()
 	{
 		if(!makirt&&!aufgedekt)
 		{
 			if(goastMarkirt)
 			{
-				this.setText("100");
+				this.setText("X");
 			}
 			else if(prozent==-100)
 			{
@@ -65,7 +65,7 @@ public class Feld extends Button
 		goastMarkirt = false;
 	}
 
-	public void addProzent(int plus)
+	void addProzent(int plus)
 	{
 		if(goastMarkirt)
 		{
@@ -91,55 +91,51 @@ public class Feld extends Button
 		this.getStyleClass().add(style);
 	}
 
-	public void setBackgroundSize(int size)
+	void setBackgroundSize(int size)
 	{
 		this.setStyle("-fx-background-size: "+size+" "+size);
 	}
 
-	public boolean IstFeld(int x, int y)
+	boolean IstFeld(int x, int y)
 	{
-		if(this.x==x&&this.y==y)
-		{
-			return true;
-		}
-		return false;
+		return this.x == x && this.y == y;
 	}
 
 	//--------------------------------
 
-	public int getX()
+	int getX()
 	{
 		return x;
 	}
 
-	public int getY()
+	int getY()
 	{
 		return y;
 	}
 
-	public String getSpeicherText()
+	String getSpeicherText()
 	{
 		return speicherText;
 	}
 
-	public boolean getBombe()
+	boolean getBombe()
 	{
 		return bombe;
 	}
 
-	public boolean getMakirt()
+	boolean getMakirt()
 	{
 		return makirt;
 	}
 
 	//--------------------------------
 
-	public void setBombe(boolean bombe)
+	void setBombe(boolean bombe)
 	{
 		this.bombe = bombe;
 	}
 
-	public void setSpeicherText(String speicherText)
+	void setSpeicherText(String speicherText)
 	{
 		this.speicherText = speicherText;
 		if(!speicherText.equals("X"))
@@ -148,7 +144,7 @@ public class Feld extends Button
 		}
 	}
 
-	public void zeigen(boolean isFinal)
+	void zeigen(boolean isFinal)
 	{
 		this.setDisable(true);
 		this.setText("");
@@ -177,7 +173,7 @@ public class Feld extends Button
 		}
 	}
 
-	public int makiren()
+	int makiren()
 	{
 		if(!aufgedekt)
 		{
@@ -216,28 +212,28 @@ public class Feld extends Button
 		return 0;
 	}
 
-	public boolean isAufgedekt()
+	boolean isAufgedekt()
 	{
 		return aufgedekt;
 	}
 
 
-	public void hideProzent()
+	void hideProzent()
 	{
 		this.setText("");
 	}
 
-	public boolean isGoastMarkirt()
+	boolean isGoastMarkirt()
 	{
 		return goastMarkirt;
 	}
 
-	public void setGoastMarkirt(boolean goastMarkirt)
+	void setGoastMarkirt(boolean goastMarkirt)
 	{
 		this.goastMarkirt = goastMarkirt;
 	}
 
-	public int getProzent()
+	int getProzent()
 	{
 		return prozent;
 	}

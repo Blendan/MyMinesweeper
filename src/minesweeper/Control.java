@@ -43,6 +43,9 @@ public class Control implements Initializable
 	@FXML
 	private BorderPane mainPane;
 
+	@FXML
+	private Label lblTimer;
+
 	//-------------------------------------
 
 	private ArrayList<Feld> feld;
@@ -58,6 +61,10 @@ public class Control implements Initializable
 	private boolean isAktiveLittleSolver = false;
 	private boolean isAktiveLittleHelper = false;
 
+	private boolean timerIsRuning = false;
+
+	private Timer timer;
+
 	public Control()
 	{
 		feld = new ArrayList<>();
@@ -66,10 +73,27 @@ public class Control implements Initializable
 	@Override
 	public void initialize(URL location, ResourceBundle resources)
 	{
+		timer = new Timer(lblTimer);
+
 		btnStart.setOnAction((event)->startGame());
 		btnLittleHelper.setOnAction((event -> tootleLittleHelper()));
 		btnLittleSolver.setOnAction((event -> tootleLittleSolver()));
+	}
 
+	private void stardTimer()
+	{
+		if(!timerIsRuning)
+		{
+			timer.setRunning(true);
+			new Thread(timer).start();
+			timerIsRuning = true;
+		}
+	}
+
+	void stopTimer()
+	{
+		timer.setRunning(false);
+		timerIsRuning = false;
 	}
 
 	private void tootleLittleSolver()
@@ -144,6 +168,7 @@ public class Control implements Initializable
 
 		if(height>0&&width>0 &&anzahlBombenGesamt>0 && anzahlBombenGesamt<height*width && weiter)
 		{
+			stopTimer();
 
 			mainPane.setBottom(null);
 
@@ -184,6 +209,8 @@ public class Control implements Initializable
 
 					feld.get(index).setOnMouseClicked((e)->{
 						Feld temp = (Feld)e.getSource();
+
+						stardTimer();
 
 						if (e.getButton() == MouseButton.SECONDARY && e.getClickCount() == 1)
 						{
@@ -347,7 +374,7 @@ public class Control implements Initializable
 		}
 	}
 
-	private void verloren()
+	void verloren()
 	{
 		aufdeken();
 		Label temp = new Label("Verloren");
@@ -362,6 +389,7 @@ public class Control implements Initializable
 
 	private void aufdeken()
 	{
+		stopTimer();
 		for (Feld feld1 : feld)
 		{
 			feld1.zeigen(true);
@@ -398,12 +426,12 @@ public class Control implements Initializable
 		}
 	}
 
-	public LittleSolver getLittleSolver()
+	LittleSolver getLittleSolver()
 	{
 		return littleSolver;
 	}
 
-	public int getBombengefunden()
+	int getBombengefunden()
 	{
 		return bombengefunden;
 	}
@@ -413,7 +441,7 @@ public class Control implements Initializable
 		return anzahlBombenGesamt;
 	}
 
-	public void setBombengefunden(int bombengefunden)
+	void setBombengefunden(int bombengefunden)
 	{
 		this.bombengefunden = bombengefunden;
 	}
