@@ -16,7 +16,7 @@ public class LittleSolver extends LittleHelper implements Runnable
 		this.control = control;
 	}
 
-	public void nextSolve()
+	private void nextSolve()
 	{
 		for (Feld value: feld)
 		{
@@ -41,7 +41,7 @@ public class LittleSolver extends LittleHelper implements Runnable
 
 				try
 				{
-					Thread.sleep(10);
+					Thread.sleep(40);
 				}
 				catch (InterruptedException e)
 				{
@@ -66,7 +66,7 @@ public class LittleSolver extends LittleHelper implements Runnable
 
 				try
 				{
-					Thread.sleep(20);
+					Thread.sleep(40);
 				}
 				catch (InterruptedException e)
 				{
@@ -76,12 +76,19 @@ public class LittleSolver extends LittleHelper implements Runnable
 
 			}
 
-			Platform.runLater(()->value.showProzent());
 		}
 
 		if(!gotOne)
 		{
 			round ++;
+			starteRaten();
+		}
+		else
+		{
+			for (Feld value: feld)
+			{
+				Platform.runLater(()->value.showProzent());
+			}
 		}
 
 		if(round == 2)
@@ -96,6 +103,11 @@ public class LittleSolver extends LittleHelper implements Runnable
 
 	}
 
+	private void starteRaten()
+	{
+		//TODO es sol jhe nach nch benötigter bomben anzahl das feld mit den höchsten prozent geflagt werden
+	}
+
 	@Override
 	public void run()
 	{
@@ -104,6 +116,8 @@ public class LittleSolver extends LittleHelper implements Runnable
 		while(running)
 		{
 			nextSolve();
+
+
 		}
 	}
 

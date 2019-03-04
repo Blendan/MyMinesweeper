@@ -44,7 +44,11 @@ public class Feld extends Button
 	{
 		if(!makirt&&!aufgedekt)
 		{
-			if(prozent==-100)
+			if(goastMarkirt)
+			{
+				this.setText("100");
+			}
+			else if(prozent==-100)
 			{
 				this.setText("0");
 			}
@@ -63,7 +67,11 @@ public class Feld extends Button
 
 	public void addProzent(int plus)
 	{
-		if(prozent != -100)
+		if(goastMarkirt)
+		{
+			prozent = 100;
+		}
+		else if(prozent != -100)
 		{
 			if (plus == -100)
 			{
