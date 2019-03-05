@@ -3,6 +3,7 @@ package minesweeper;
 import javafx.application.Platform;
 
 import java.util.ArrayList;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class LittleSolver extends LittleHelper implements Runnable
 {
@@ -11,10 +12,55 @@ public class LittleSolver extends LittleHelper implements Runnable
 	private int round = 0;
 	private final int speed = 20;
 
-	public LittleSolver(ArrayList<Feld> feld, int width, int height, Control control)
+	LittleSolver(ArrayList<Feld> feld, int width, int height, Control control)
 	{
 		super(feld, width, height);
 		this.control = control;
+	}
+
+	private boolean picRandom()
+	{
+		ArrayList<Feld> picabel = new ArrayList<>();
+		boolean foundOne = false;
+
+		for (Feld value: feld)
+		{
+			if(!value.isGoastMarkirt()&&!value.isAufgedekt()&&!value.getMakirt())
+			{
+				picabel.add(value);
+				foundOne = true;
+				if(control.isFertit())
+				{
+					return false;
+				}
+			}
+		}
+
+
+
+		if(picabel.size()!=0&&foundOne)
+		{
+			int random = ThreadLocalRandom.current().nextInt(0, picabel.size());
+
+			if(picabel.get(random).getBombe())
+			{
+				Platform.runLater(()->control.verloren());
+				return  false;
+			}
+			else
+			{
+				Platform.runLater(()->picabel.get(random).zeigen(false));
+
+				if(picabel.get(random).getSpeicherText().equals("0"))
+				{
+					Platform.runLater(()->control.zeigeumligend(picabel.get(random).getX(),picabel.get(random).getY()));
+				}
+
+				return true;
+			}
+		}
+
+		return  false;
 	}
 
 	private void nextSolve()
@@ -50,9 +96,17 @@ public class LittleSolver extends LittleHelper implements Runnable
 
 			if (round == 3)
 			{
+				if(!picRandom())
+				{
+					running = false;
+				}
 				round = 0;
-				running = false;
 			}
+		}
+
+		if(control.isFertit())
+		{
+			running = false;
 		}
 
 
@@ -208,12 +262,20 @@ public class LittleSolver extends LittleHelper implements Runnable
 	{
 		round = 0;
 		running = true;
-		while(running)
+
+		do
 		{
-			nextSolve();
+			while (running)
+			{
+				nextSolve();
+			}
+			resetMarirung();
+		} while (!control.isFertit());
+	}
 
-
-		}
+	private void resetMarirung()
+	{
+		feld.forEach((value)->Platform.runLater(()->value.makiren()));
 	}
 
 	void setRunning(boolean running)

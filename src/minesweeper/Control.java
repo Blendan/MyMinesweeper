@@ -1,5 +1,6 @@
 package minesweeper;
 
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
@@ -60,6 +61,8 @@ public class Control implements Initializable
 
 	private boolean isAktiveLittleSolver = false;
 	private boolean isAktiveLittleHelper = false;
+
+	private  boolean fertit = false;
 
 	private boolean timerIsRuning = false;
 
@@ -168,6 +171,7 @@ public class Control implements Initializable
 
 		if(height>0&&width>0 &&anzahlBombenGesamt>0 && anzahlBombenGesamt<height*width && weiter)
 		{
+			fertit = false;
 			stopTimer();
 
 			mainPane.setBottom(null);
@@ -176,11 +180,16 @@ public class Control implements Initializable
 			gridBoxMinen = new GridPane();
 			feld = new ArrayList<>();
 
+			if(littleSolver!=null)
+			{
+				littleSolver.setRunning(false);
+			}
+
 			littleHelper = new LittleHelper(feld,width,height);
 			littleSolver = new LittleSolver(feld,width,height,this);
 
-			gridBoxMinen.heightProperty().addListener((e)-> scaleFeld());
-			gridBoxMinen.widthProperty().addListener((e)-> scaleFeld());
+			gridBoxMinen.heightProperty().addListener((e)-> new Thread(()-> Platform.runLater(()->scaleFeld())).start());
+			gridBoxMinen.widthProperty().addListener((e)-> new Thread(()-> Platform.runLater(()->scaleFeld())).start());
 
 			RowConstraints rc;
 			ColumnConstraints cc;
@@ -207,35 +216,34 @@ public class Control implements Initializable
 				{
 					feld.add(new Feld(i,j));
 
-					feld.get(index).setOnMouseClicked((e)->{
-						Feld temp = (Feld)e.getSource();
+					feld.get(index).setOnMouseClicked((e) ->
+					{
+						Feld temp = (Feld) e.getSource();
 
-						stardTimer();
 
 						if (e.getButton() == MouseButton.SECONDARY && e.getClickCount() == 1)
 						{
 							bombengefunden += temp.makiren();
-
-
 						}
 						else if (e.getButton() == MouseButton.PRIMARY && e.getClickCount() == 1)
 						{
-							if(!temp.getMakirt())
+							if (!temp.getMakirt())
 							{
-								if(temp.getBombe())
+								if (temp.getBombe())
 								{
 									verloren();
 								}
 								else
 								{
 									temp.zeigen(false);
-									if(temp.getSpeicherText().equals("0"))
+									if (temp.getSpeicherText().equals("0"))
 									{
-										zeigeumligend(temp.getX(),temp.getY());
+										zeigeumligend(temp.getX(), temp.getY());
 									}
 
-									if(isAktiveLittleSolver)
+									if (isAktiveLittleSolver)
 									{
+
 										littleSolver.setRunning(false);
 										new Thread(littleSolver).start();
 									}
@@ -246,7 +254,7 @@ public class Control implements Initializable
 
 						}
 
-						if(isAktiveLittleHelper)
+						if (isAktiveLittleHelper)
 						{
 							littleHelper.startHelp();
 						}
@@ -311,12 +319,16 @@ public class Control implements Initializable
 					feld.get(i).setSpeicherText("X");
 				}
 
-
-				gridBoxMinen.setVisible(true);
-				gridBoxMinen.setAlignment(Pos.CENTER);
-				scaleFeld();
-				mainPane.setCenter(gridBoxMinen);
 			}
+
+			gridBoxMinen.setVisible(true);
+			gridBoxMinen.setAlignment(Pos.CENTER);
+			scaleFeld();
+			mainPane.setCenter(gridBoxMinen);
+
+			stardTimer();
+
+
 		}
 	}
 
@@ -389,6 +401,7 @@ public class Control implements Initializable
 
 	private void aufdeken()
 	{
+		fertit = true;
 		stopTimer();
 		for (Feld feld1 : feld)
 		{
@@ -444,5 +457,10 @@ public class Control implements Initializable
 	void setBombengefunden(int bombengefunden)
 	{
 		this.bombengefunden = bombengefunden;
+	}
+
+	public boolean isFertit()
+	{
+		return fertit;
 	}
 }
