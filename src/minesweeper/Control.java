@@ -1,6 +1,7 @@
 package minesweeper;
 
 import javafx.application.Platform;
+import javafx.beans.InvalidationListener;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
@@ -20,6 +21,7 @@ import javafx.scene.text.TextAlignment;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class Control implements Initializable
 {
@@ -62,7 +64,7 @@ public class Control implements Initializable
 	private boolean isAktiveLittleSolver = false;
 	private boolean isAktiveLittleHelper = false;
 
-	private  boolean fertit = false;
+	private  boolean fertig = false;
 
 	private boolean timerIsRuning = false;
 
@@ -162,16 +164,15 @@ public class Control implements Initializable
 			width = Integer.parseInt(textAreaWidth.getText());
 			anzahlBombenGesamt = Integer.parseInt(textAreaCount.getText());
 
-		}
-		catch (Exception e)
+		} catch (Exception e)
 		{
 			weiter = false;
 			e.printStackTrace();
 		}
 
-		if(height>0&&width>0 &&anzahlBombenGesamt>0 && anzahlBombenGesamt<height*width && weiter)
+		if (height > 0 && width > 0 && anzahlBombenGesamt > 0 && anzahlBombenGesamt < height * width && weiter)
 		{
-			fertit = false;
+			fertig = false;
 			stopTimer();
 
 			mainPane.setBottom(null);
@@ -180,21 +181,23 @@ public class Control implements Initializable
 			gridBoxMinen = new GridPane();
 			feld = new ArrayList<>();
 
-			if(littleSolver!=null)
+			if (littleSolver != null)
 			{
 				littleSolver.setRunning(false);
 			}
 
-			littleHelper = new LittleHelper(feld,width,height);
-			littleSolver = new LittleSolver(feld,width,height,this);
+			littleHelper = new LittleHelper(feld, width, height);
+			littleSolver = new LittleSolver(feld, width, height, this);
 
-			gridBoxMinen.heightProperty().addListener((e)-> new Thread(()-> Platform.runLater(()->scaleFeld())).start());
-			gridBoxMinen.widthProperty().addListener((e)-> new Thread(()-> Platform.runLater(()->scaleFeld())).start());
+			InvalidationListener scaleFeld = (e) -> new Thread(() -> Platform.runLater(() -> scaleFeld())).start();
+
+			gridBoxMinen.heightProperty().addListener(scaleFeld);
+			gridBoxMinen.widthProperty().addListener(scaleFeld);
 
 			RowConstraints rc;
 			ColumnConstraints cc;
 
-			for (int i = 0; i < height; i ++)
+			for (int i = 0; i < height; i++)
 			{
 				rc = new RowConstraints();
 				rc.setValignment(VPos.BASELINE);
@@ -210,11 +213,11 @@ public class Control implements Initializable
 
 			int index = 0;
 
-			for (int i = 0; i < height; i ++)
+			for (int i = 0; i < height; i++)
 			{
-				for (int j = 0; j < width; j ++)
+				for (int j = 0; j < width; j++)
 				{
-					feld.add(new Feld(i,j));
+					feld.add(new Feld(i, j));
 
 					feld.get(index).setOnMouseClicked((e) ->
 					{
@@ -243,8 +246,7 @@ public class Control implements Initializable
 
 									if (isAktiveLittleSolver)
 									{
-
-										littleSolver.setRunning(false);
+										littleSolver.forceColose();
 										new Thread(littleSolver).start();
 									}
 
@@ -262,23 +264,23 @@ public class Control implements Initializable
 						gewinnPruefung();
 					});
 
-					gridBoxMinen.add(feld.get(index),j,i);
+					gridBoxMinen.add(feld.get(index), j, i);
 
 					//System.out.println(i+" "+j+" "+index); // DEBUG
 
-					index ++;
+					index++;
 				}
 			}
 
 			int zufall;
 
-			for(int i = 0; i < anzahlBombenGesamt;i++)
+			for (int i = 0; i < anzahlBombenGesamt; i++)
 			{
-				zufall = (int)(Math.random() * feld.size());
+				zufall = ThreadLocalRandom.current().nextInt(0, feld.size());
 
-				if(feld.get(zufall).getBombe())
+				if (feld.get(zufall).getBombe())
 				{
-					i --;
+					i--;
 				}
 				else
 				{
@@ -286,50 +288,50 @@ public class Control implements Initializable
 				}
 			}
 
-			for(int i = 0;i<feld.size();i++)
+			for (Feld value : feld)
 			{
-				int bombenZaehler = 0;
-
-				if (!feld.get(i).getBombe())
-				{
-					int tempX = feld.get(i).getX();
-					int tempY = feld.get(i).getY();
-
-					for (int j = 0; j < feld.size(); j++)
-					{
-						for (int k = -1; k < 2; k++)
-						{
-							for (int l = -1; l < 2; l++)
-							{
-								if (feld.get(j).IstFeld(tempX + k, tempY + l))
-								{
-									if (feld.get(j).getBombe())
-									{
-										bombenZaehler++;
-									}
-								}
-							}
-						}
-					}
-
-					feld.get(i).setSpeicherText(Integer.toString(bombenZaehler));
-				}
-				else
-				{
-					feld.get(i).setSpeicherText("X");
-				}
-
+				setzeBomben(value);
 			}
 
-			gridBoxMinen.setVisible(true);
-			gridBoxMinen.setAlignment(Pos.CENTER);
-			scaleFeld();
-			mainPane.setCenter(gridBoxMinen);
-
-			stardTimer();
-
-
 		}
+
+		gridBoxMinen.setVisible(true);
+		gridBoxMinen.setAlignment(Pos.CENTER);
+		scaleFeld();
+		mainPane.setCenter(gridBoxMinen);
+
+		stardTimer();
+	}
+
+	private int setzeBomben(Feld value)
+	{
+		if (!value.getBombe())
+		{
+			int bombenZaehler = 0;
+
+			int feldID = width*value.getX()+value.getY();
+
+			for (int i = -1; i < 2; i++)
+			{
+				for (int j = -1*width; j <= width; j += width)
+				{
+					if (feldID + i+j >= 0 && feldID + i+j < height * width && !(feldID%width == 0 && i == -1) && !(feldID%width == width-1 && i == 1))
+					{
+						if (feld.get(feldID + i+j).getBombe())
+						{
+							bombenZaehler++;
+						}
+					}
+				}
+			}
+
+			value.setSpeicherText(Integer.toString(bombenZaehler));
+		}
+		else
+		{
+			value.setSpeicherText("X");
+		}
+		return 0;
 	}
 
 	private int getFeldSize()
@@ -401,7 +403,7 @@ public class Control implements Initializable
 
 	private void aufdeken()
 	{
-		fertit = true;
+		fertig = true;
 		stopTimer();
 		for (Feld feld1 : feld)
 		{
@@ -459,8 +461,8 @@ public class Control implements Initializable
 		this.bombengefunden = bombengefunden;
 	}
 
-	public boolean isFertit()
+	public boolean isFertig()
 	{
-		return fertit;
+		return fertig;
 	}
 }

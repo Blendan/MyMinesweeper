@@ -7,10 +7,11 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class LittleSolver extends LittleHelper implements Runnable
 {
-	private boolean running = true;
+	private boolean running = true, forceClose = false;
 	private Control control;
 	private int round = 0;
 	private final int speed = 20;
+	private int felderMakirt = 0;
 
 	LittleSolver(ArrayList<Feld> feld, int width, int height, Control control)
 	{
@@ -27,12 +28,12 @@ public class LittleSolver extends LittleHelper implements Runnable
 		{
 			if(!value.isGoastMarkirt()&&!value.isAufgedekt()&&!value.getMakirt())
 			{
-				picabel.add(value);
-				foundOne = true;
-				if(control.isFertit())
+				if(control.isFertig())
 				{
 					return false;
 				}
+				picabel.add(value);
+				foundOne = true;
 			}
 		}
 
@@ -56,6 +57,14 @@ public class LittleSolver extends LittleHelper implements Runnable
 					Platform.runLater(()->control.zeigeumligend(picabel.get(random).getX(),picabel.get(random).getY()));
 				}
 
+				try
+				{
+					Thread.sleep(speed);
+				} catch (InterruptedException e)
+				{
+					e.printStackTrace();
+				}
+
 				return true;
 			}
 		}
@@ -70,21 +79,32 @@ public class LittleSolver extends LittleHelper implements Runnable
 
 		for (Feld value: feld)
 		{
+			if(control.isFertig())
+			{
+				break;
+			}
 			gotOne = pruefeUmliegend(value);
 		}
 
 		if(round==2&&!gotOne)
 		{
-
 			for (Feld value: feld)
 			{
+				if(control.isFertig())
+				{
+					break;
+				}
 				fucktUp = starteRaten(value);
 			}
 		}
 
+		if(gotOne)
+		{
+			round = 0;
+		}
+
 		if(!fucktUp)
 		{
-
 			if (!waehleFelder())
 			{
 				round++;
@@ -94,7 +114,7 @@ public class LittleSolver extends LittleHelper implements Runnable
 				round = 0;
 			}
 
-			if (round == 3)
+			if (round == 4)
 			{
 				if(!picRandom())
 				{
@@ -104,7 +124,7 @@ public class LittleSolver extends LittleHelper implements Runnable
 			}
 		}
 
-		if(control.isFertit())
+		if(control.isFertig())
 		{
 			running = false;
 		}
@@ -112,6 +132,10 @@ public class LittleSolver extends LittleHelper implements Runnable
 
 		for (Feld value : feld)
 		{
+			if(control.isFertig())
+			{
+				break;
+			}
 			Platform.runLater(value::showProzent);
 		}
 
@@ -140,6 +164,7 @@ public class LittleSolver extends LittleHelper implements Runnable
 				{
 					e.printStackTrace();
 				}
+				felderMakirt ++;
 				gotOne = true;
 			}
 			else if(value.getProzent()==-100)
@@ -261,21 +286,53 @@ public class LittleSolver extends LittleHelper implements Runnable
 	public void run()
 	{
 		round = 0;
+		felderMakirt = 0;
 		running = true;
+		forceClose = false;
 
-		do
+		while (running&&!forceClose)
 		{
-			while (running)
+			nextSolve();
+			System.out.println("--");
+			if(!control.isFertig()&&!forceClose&&pruefeFelderIfNoneLeft() && control.getBombengefunden() != control.getAnzahlBombenGesamt())
 			{
-				nextSolve();
+				System.out.println("test");
+				running = true;
+				resetMarirung();
 			}
-			resetMarirung();
-		} while (!control.isFertit());
+		}
+	}
+
+	void forceColose()
+	{
+		forceClose = true;
+	}
+
+	private boolean pruefeFelderIfNoneLeft()
+	{
+		for (Feld value: feld)
+		{
+			if(!value.getMakirt()&&!value.isAufgedekt()&&!value.isGoastMarkirt())
+			{
+				return false;
+			}
+		}
+
+		return true;
 	}
 
 	private void resetMarirung()
 	{
-		feld.forEach((value)->Platform.runLater(()->value.makiren()));
+		for (Feld value: feld)
+		{
+			if(value.getMakirt())
+			{
+				Platform.runLater(value::makiren);
+			}
+			value.setGoastMarkirt(false);
+		}
+		control.setBombengefunden(0);
+		felderMakirt = 0;
 	}
 
 	void setRunning(boolean running)
