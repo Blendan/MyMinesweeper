@@ -140,7 +140,7 @@ public class LittleSolver extends LittleHelper implements Runnable
 		}
 
 
-		Platform.runLater(()->control.gewinnPruefung());
+
 	}
 
 	private boolean waehleFelder()
@@ -179,7 +179,7 @@ public class LittleSolver extends LittleHelper implements Runnable
 				if(value.getBombe())
 				{
 					running = false;
-					Platform.runLater(()->control.verloren());
+					control.verloren();
 				}
 
 				try
@@ -294,11 +294,19 @@ public class LittleSolver extends LittleHelper implements Runnable
 		{
 			nextSolve();
 			System.out.println("--");
+			control.gewinnPruefung();
 			if(!control.isFertig()&&!forceClose&&pruefeFelderIfNoneLeft() && control.getBombengefunden() != control.getAnzahlBombenGesamt())
 			{
-				System.out.println("test");
 				running = true;
 				resetMarirung();
+			}
+			if(forceClose)
+			{
+				System.out.println("closethatnow");
+			}
+			if(control.isFertig())
+			{
+				System.out.println("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
 			}
 		}
 	}

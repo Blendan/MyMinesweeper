@@ -376,35 +376,55 @@ public class Control implements Initializable
 	{
 		if(bombengefunden == anzahlBombenGesamt)
 		{
-			aufdeken();
-			Label temp = new Label("Gewonnen");
-			temp.setFont(new Font(80));
-			temp.setAlignment(Pos.CENTER);
-			temp.setTextAlignment(TextAlignment.CENTER);
-			temp.setPrefWidth(10000);
-			temp.setTextFill(Color.BLACK);
-			mainPane.setBottom(temp);
-			mainPane.getBottom().setStyle("-fx-background-color: green");
+			fertig = true;
+			if(isAktiveLittleSolver)
+			{
+				littleSolver.forceColose();
+			}
+			stopTimer();
+			Platform.runLater(()->gewonnen());
 		}
 	}
 
-	void verloren()
+	private void gewonnen()
 	{
 		aufdeken();
-		Label temp = new Label("Verloren");
+		Label temp = new Label("Gewonnen");
 		temp.setFont(new Font(80));
+		temp.setAlignment(Pos.CENTER);
 		temp.setTextAlignment(TextAlignment.CENTER);
 		temp.setPrefWidth(10000);
 		temp.setTextFill(Color.BLACK);
 		mainPane.setBottom(temp);
-		temp.setAlignment(Pos.CENTER);
-		mainPane.getBottom().setStyle("-fx-background-color: red");
+		mainPane.getBottom().setStyle("-fx-background-color: green");
+	}
+
+	void verloren()
+	{
+		fertig = true;
+		if(isAktiveLittleSolver)
+		{
+			littleSolver.forceColose();
+		}
+		stopTimer();
+
+		Platform.runLater(()->
+		{
+			aufdeken();
+			Label temp = new Label("Verloren");
+			temp.setFont(new Font(80));
+			temp.setTextAlignment(TextAlignment.CENTER);
+			temp.setPrefWidth(10000);
+			temp.setTextFill(Color.BLACK);
+			mainPane.setBottom(temp);
+			temp.setAlignment(Pos.CENTER);
+			mainPane.getBottom().setStyle("-fx-background-color: red");
+		});
 	}
 
 	private void aufdeken()
 	{
-		fertig = true;
-		stopTimer();
+
 		for (Feld feld1 : feld)
 		{
 			feld1.zeigen(true);
