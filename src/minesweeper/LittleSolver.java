@@ -295,10 +295,12 @@ public class LittleSolver extends LittleHelper implements Runnable
 			nextSolve();
 			System.out.println("--");
 			control.gewinnPruefung();
-			if(!control.isFertig()&&!forceClose&&pruefeFelderIfNoneLeft() && control.getBombengefunden() != control.getAnzahlBombenGesamt())
+			if(!forceClose&&pruefeFelderIfNoneLeft() && control.getBombengefunden() != control.getAnzahlBombenGesamt())
 			{
-				running = true;
-				resetMarirung();
+				control.verloren();
+				running = false;
+				System.out.println("----------------------");
+				//resetMarirung();
 			}
 			if(forceClose)
 			{

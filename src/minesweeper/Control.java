@@ -183,7 +183,7 @@ public class Control implements Initializable
 
 			if (littleSolver != null)
 			{
-				littleSolver.setRunning(false);
+				littleSolver.forceColose();
 			}
 
 			littleHelper = new LittleHelper(feld, width, height);
