@@ -238,7 +238,7 @@ public class Control implements Initializable
 								}
 								else
 								{
-									temp.zeigen(false);
+									temp.zeigen(true, false);
 									if (temp.getSpeicherText().equals("0"))
 									{
 										zeigeumligend(temp.getX(), temp.getY());
@@ -388,7 +388,8 @@ public class Control implements Initializable
 
 	private void gewonnen()
 	{
-		aufdeken();
+		System.out.println(bombengefunden+" | "+anzahlBombenGesamt);
+		aufdeken(true);
 		Label temp = new Label("Gewonnen");
 		temp.setFont(new Font(80));
 		temp.setAlignment(Pos.CENTER);
@@ -406,11 +407,12 @@ public class Control implements Initializable
 		{
 			littleSolver.forceColose();
 		}
+		System.out.println(bombengefunden+" | "+anzahlBombenGesamt);
 		stopTimer();
 
 		Platform.runLater(()->
 		{
-			aufdeken();
+			aufdeken(false);
 			Label temp = new Label("Verloren");
 			temp.setFont(new Font(80));
 			temp.setTextAlignment(TextAlignment.CENTER);
@@ -422,12 +424,12 @@ public class Control implements Initializable
 		});
 	}
 
-	private void aufdeken()
+	private void aufdeken(boolean isWinn)
 	{
 
 		for (Feld feld1 : feld)
 		{
-			feld1.zeigen(true);
+			feld1.zeigen(true,isWinn);
 		}
 	}
 
@@ -447,12 +449,12 @@ public class Control implements Initializable
 					{
 						if (feld.get(feldID + i+j).getSpeicherText().equals("0"))
 						{
-							feld.get(feldID + i+j).zeigen(false);
+							feld.get(feldID + i+j).zeigen(true, false);
 							zeigeumligend(feld.get(feldID + i+j).getX(), feld.get(feldID + i+j).getY());
 						}
 						else if (!feld.get(feldID + i+j).getSpeicherText().equals("X"))
 						{
-							feld.get(feldID + i+j).zeigen(false);
+							feld.get(feldID + i+j).zeigen(true, false);
 						}
 
 					}

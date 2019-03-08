@@ -18,6 +18,8 @@ public class Feld extends Button
 	private String styleWrong = "feld-wrong";
 
 	private int prozent = 0;
+	private int bombenOffen = 0;
+	private int felderOffen = 0;
 
 	private boolean goastMarkirt = false;
 
@@ -25,6 +27,8 @@ public class Feld extends Button
 	private boolean bombe = false;
 	private boolean makirt = false;
 	private boolean aufgedekt = false;
+	private boolean maybeBomb = false;
+	private boolean save = false;
 
 	Feld(int x,int y)
 	{
@@ -144,14 +148,14 @@ public class Feld extends Button
 		}
 	}
 
-	void zeigen(boolean isFinal)
+	void zeigen(boolean isFinal, boolean isWinn)
 	{
 		this.setDisable(true);
 		this.setText("");
 		aufgedekt = true;
 		if (bombe)
 		{
-			if (isFinal&&!makirt)
+			if (isFinal&&!makirt&&!isWinn)
 			{
 				this.setClass(styleBombeNotFound);
 			}
@@ -162,7 +166,7 @@ public class Feld extends Button
 		}
 		else
 		{
-			if(makirt)
+			if(makirt&&!isWinn)
 			{
 				this.setClass(styleWrong);
 			}
@@ -236,5 +240,45 @@ public class Feld extends Button
 	int getProzent()
 	{
 		return prozent;
+	}
+
+	public void setBombenOffen(int bombenOffen)
+	{
+		this.bombenOffen = bombenOffen;
+	}
+
+	public int getBombenOffen()
+	{
+		return bombenOffen;
+	}
+
+	public int getFelderOffen()
+	{
+		return felderOffen;
+	}
+
+	public void setFelderOffen(int felderOffen)
+	{
+		this.felderOffen = felderOffen;
+	}
+
+	public boolean isMaybeBomb()
+	{
+		return maybeBomb;
+	}
+
+	public void setMaybeBomb(boolean maybeBomb)
+	{
+		this.maybeBomb = maybeBomb;
+	}
+
+	public void setSave(boolean save)
+	{
+		this.save = save;
+	}
+
+	public boolean getSave()
+	{
+		return save;
 	}
 }

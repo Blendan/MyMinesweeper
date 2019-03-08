@@ -50,7 +50,7 @@ public class LittleSolver extends LittleHelper implements Runnable
 			}
 			else
 			{
-				Platform.runLater(()->picabel.get(random).zeigen(false));
+				Platform.runLater(()->picabel.get(random).zeigen(true, false));
 
 				if(picabel.get(random).getSpeicherText().equals("0"))
 				{
@@ -79,18 +79,32 @@ public class LittleSolver extends LittleHelper implements Runnable
 
 		for (Feld value: feld)
 		{
-			if(control.isFertig())
+			if(control.isFertig()||forceClose)
 			{
 				break;
 			}
 			gotOne = pruefeUmliegend(value);
 		}
 
-		if(round==2&&!gotOne)
+		for (Feld value: feld)
+		{
+			if(control.isFertig()||forceClose)
+			{
+				break;
+			}
+			fucktUp = lookForError(value);
+			if(fucktUp)
+			{
+				resetMarirung();
+				break;
+			}
+		}
+
+		if(round==2&&!gotOne&&!fucktUp)
 		{
 			for (Feld value: feld)
 			{
-				if(control.isFertig())
+				if(control.isFertig()||forceClose)
 				{
 					break;
 				}
@@ -169,7 +183,7 @@ public class LittleSolver extends LittleHelper implements Runnable
 			}
 			else if(value.getProzent()==-100)
 			{
-				Platform.runLater(()->value.zeigen(false));
+				Platform.runLater(()->value.zeigen(true, false));
 
 				if(value.getSpeicherText().equals("0"))
 				{
@@ -282,6 +296,40 @@ public class LittleSolver extends LittleHelper implements Runnable
 		return false;
 	}
 
+	private boolean lookForError(Feld value)
+	{
+		int feldID = width*value.getX()+value.getY();
+		int bombenGefunden = 0;
+		int bombenToFind = 0;
+
+		if(value.isAufgedekt() && !value.getSpeicherText().equals("X") && !value.getSpeicherText().equals("0"))
+		{
+			bombenToFind = Integer.parseInt(value.getSpeicherText());
+
+			for (int i = -1; i < 2; i++)
+			{
+				for (int j = -1 * width; j <= width; j += width)
+				{
+					if (feldID + i + j >= 0 && feldID + i + j < height * width && !(feldID % width == 0 && i == -1) && !(feldID % width == width - 1 && i == 1))
+					{
+						if(feld.get(feldID + i + j ).getMakirt())
+						{
+							bombenGefunden ++;
+						}
+					}
+				}
+			}
+
+			if(bombenGefunden>bombenToFind)
+			{
+				return true;
+			}
+		}
+
+
+		return false;
+	}
+
 	@Override
 	public void run()
 	{
@@ -295,12 +343,11 @@ public class LittleSolver extends LittleHelper implements Runnable
 			nextSolve();
 			System.out.println("--");
 			control.gewinnPruefung();
-			if(!forceClose&&pruefeFelderIfNoneLeft() && control.getBombengefunden() != control.getAnzahlBombenGesamt())
+			if(!forceClose&&pruefeFelderIfNoneLeft() && control.getBombengefunden() != control.getAnzahlBombenGesamt()||control.getBombengefunden()<0)
 			{
-				control.verloren();
-				running = false;
+				running = true;
 				System.out.println("----------------------");
-				//resetMarirung();
+				resetMarirung();
 			}
 			if(forceClose)
 			{
