@@ -72,6 +72,82 @@ public class LittleSolver extends LittleHelper implements Runnable
 		return  false;
 	}
 
+	private void scannForFelder(Feld value)
+	{
+		if(value.isAufgedekt() && !value.getSpeicherText().equals("X"))
+		{
+			int felderOffen = 9;
+			int felderMakirt = 0;
+
+			int feldID = width*value.getX()+value.getY();
+			int bombenToFind = Integer.parseInt(value.getSpeicherText());
+
+			for (int i = -1; i < 2; i++)
+			{
+				for (int j = -1 * width; j <= width; j += width)
+				{
+					if (feldID + i + j >= 0 && feldID + i + j < height * width && !(feldID % width == 0 && i == -1) && !(feldID % width == width - 1 && i == 1))
+					{
+						if (feld.get(feldID + i + j).getMakirt() || feld.get(feldID + i + j).isAufgedekt() || feld.get(feldID + i + j).isGoastMarkirt())
+						{
+							felderOffen --;
+						}
+
+						if(feld.get(feldID + i + j).getMakirt() || feld.get(feldID + i + j).isGoastMarkirt())
+						{
+							felderMakirt ++;
+						}
+					}
+					else
+					{
+						felderOffen --;
+					}
+				}
+			}
+			value.setBombenOffen(bombenToFind-felderMakirt);
+			value.setFelderOffen(felderOffen);
+		}
+	}
+
+	private void scannForBombs(Feld value)
+	{
+		if(!value.isAufgedekt() && !value.isGoastMarkirt())
+		{
+			int overlap = 0;
+			int felderOffen = 8;
+
+			int feldID = width*value.getX()+value.getY();
+
+			for (int i = -1; i < 2; i++)
+			{
+				for (int j = -1 * width; j <= width; j += width)
+				{
+					if (feldID + i + j >= 0 && feldID + i + j < height * width && !(feldID % width == 0 && i == -1) && !(feldID % width == width - 1 && i == 1))
+					{
+						if (feld.get(feldID + i + j).isAufgedekt() &&feld.get(feldID + i + j)!=value)
+						{
+							if(feld.get(feldID + i + j).getBombenOffen()==1)
+							{
+								overlap ++;
+							}
+							felderOffen--;
+						}
+
+						if(feld.get(feldID + i + j).getMakirt() || feld.get(feldID + i + j).isGoastMarkirt())
+						{
+							felderMakirt ++;
+						}
+					}
+				}
+			}
+			System.out.println(felderOffen +" | "+overlap);
+			if(overlap >= 8-felderOffen && felderOffen!=8)
+			{
+				value.setGoastMarkirt(true);
+			}
+		}
+	}
+
 	private void nextSolve()
 	{
 		boolean fucktUp = false;
@@ -86,6 +162,24 @@ public class LittleSolver extends LittleHelper implements Runnable
 			gotOne = pruefeUmliegend(value);
 		}
 
+		/*for (Feld value: feld)
+		{
+			if(control.isFertig()||forceClose)
+			{
+				break;
+			}
+			scannForFelder(value);
+		}
+
+		for (Feld value: feld)
+		{
+			if(control.isFertig()||forceClose)
+			{
+				break;
+			}
+			scannForBombs(value);
+		}*/
+
 		for (Feld value: feld)
 		{
 			if(control.isFertig()||forceClose)
@@ -99,6 +193,8 @@ public class LittleSolver extends LittleHelper implements Runnable
 				break;
 			}
 		}
+
+
 
 		if(round==2&&!gotOne&&!fucktUp)
 		{
