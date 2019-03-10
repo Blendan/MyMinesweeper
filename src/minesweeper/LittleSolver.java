@@ -433,11 +433,14 @@ public class LittleSolver extends LittleHelper implements Runnable
 		felderMakirt = 0;
 		running = true;
 		forceClose = false;
+		int counter = 0;
+		int max = width*height*2;
 
-		while (running&&!forceClose)
+		while (running&&!forceClose&&counter<=max)
 		{
 			nextSolve();
-			System.out.println("--");
+			System.out.println("--"+counter);
+			counter ++;
 			control.gewinnPruefung();
 			if(!forceClose&&pruefeFelderIfNoneLeft() && control.getBombengefunden() != control.getAnzahlBombenGesamt()||control.getBombengefunden()<0)
 			{
