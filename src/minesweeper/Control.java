@@ -107,6 +107,8 @@ public class Control implements Initializable
 		{
 			isAktiveLittleSolver = false;
 
+			btnLittleSolver.setStyle("");
+
 			if(littleSolver!=null)
 			{
 				littleSolver.setRunning(false);
@@ -127,6 +129,13 @@ public class Control implements Initializable
 				littleHelper.startHelp();
 			}
 
+			btnLittleSolver.setStyle("-fx-border: none;\n" +
+					"    -fx-background-color: none;\n" +
+					"    -fx-background-image: url(\"image/blank_hover.jpg\");\n" +
+					"    -fx-background-repeat: stretch;\n" +
+					"    -fx-background-position: center center;\n" +
+					"    -fx-background-size: 100% 100%;");
+
 			isAktiveLittleSolver = true;
 		}
 	}
@@ -136,6 +145,9 @@ public class Control implements Initializable
 		if(isAktiveLittleHelper)
 		{
 			isAktiveLittleHelper = false;
+
+			btnLittleHelper.setStyle("");
+
 			if(feld!=null)
 			{
 				for (Feld value: feld)
@@ -150,6 +162,13 @@ public class Control implements Initializable
 			{
 				littleHelper.startHelp();
 			}
+
+			btnLittleHelper.setStyle("-fx-border: none;\n" +
+					"    -fx-background-color: none;\n" +
+					"    -fx-background-image: url(\"image/blank_hover.jpg\");\n" +
+					"    -fx-background-repeat: stretch;\n" +
+					"    -fx-background-position: center center;\n" +
+					"    -fx-background-size: 100% 100%;");
 
 			isAktiveLittleHelper = true;
 		}
@@ -388,7 +407,7 @@ public class Control implements Initializable
 
 	private void gewonnen()
 	{
-		System.out.println(bombengefunden+" | "+anzahlBombenGesamt);
+		//System.out.println(bombengefunden+" | "+anzahlBombenGesamt);
 		aufdeken(true);
 		Label temp = new Label("Gewonnen");
 		temp.setFont(new Font(80));
@@ -407,7 +426,7 @@ public class Control implements Initializable
 		{
 			littleSolver.forceColose();
 		}
-		System.out.println(bombengefunden+" | "+anzahlBombenGesamt);
+		//System.out.println(bombengefunden+" | "+anzahlBombenGesamt);
 		stopTimer();
 
 		Platform.runLater(()->

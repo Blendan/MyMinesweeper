@@ -12,6 +12,7 @@ public class LittleSolver extends LittleHelper implements Runnable
 	private int round = 0;
 	private final int speed = 20;
 	private int felderMakirt = 0;
+	private final boolean isDebug = false;
 
 	LittleSolver(ArrayList<Feld> feld, int width, int height, Control control)
 	{
@@ -140,7 +141,11 @@ public class LittleSolver extends LittleHelper implements Runnable
 					}
 				}
 			}
-			System.out.println(felderOffen +" | "+overlap);
+			if(isDebug)
+			{
+				System.out.println(felderOffen + " | " + overlap);
+			}
+
 			if(overlap >= 8-felderOffen && felderOffen!=8)
 			{
 				value.setGoastMarkirt(true);
@@ -439,20 +444,26 @@ public class LittleSolver extends LittleHelper implements Runnable
 		while (running&&!forceClose&&counter<=max)
 		{
 			nextSolve();
-			System.out.println("--"+counter);
+			if (isDebug)
+			{
+				System.out.println("--"+counter);
+			}
 			counter ++;
 			control.gewinnPruefung();
 			if(!forceClose&&pruefeFelderIfNoneLeft() && control.getBombengefunden() != control.getAnzahlBombenGesamt()||control.getBombengefunden()<0)
 			{
 				running = true;
-				System.out.println("----------------------");
+				if (isDebug)
+				{
+					System.out.println("----------------------");
+				}
 				resetMarirung();
 			}
-			if(forceClose)
+			if(forceClose&&isDebug)
 			{
 				System.out.println("closethatnow");
 			}
-			if(control.isFertig())
+			if(control.isFertig()&&isDebug)
 			{
 				System.out.println("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
 			}
