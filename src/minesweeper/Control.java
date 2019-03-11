@@ -178,7 +178,8 @@ public class Control implements Initializable
 			width = Integer.parseInt(textAreaWidth.getText());
 			anzahlBombenGesamt = Integer.parseInt(textAreaCount.getText());
 
-		} catch (Exception e)
+		}
+		catch (Exception e)
 		{
 			weiter = false;
 			e.printStackTrace();
