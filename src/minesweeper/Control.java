@@ -107,11 +107,12 @@ public class Control implements Initializable
 		{
 			isAktiveLittleSolver = false;
 
-			btnLittleSolver.setStyle("");
+			btnLittleSolver.getStyleClass().remove("btn-active");
+			btnLittleSolver.getStyleClass().add("btn");
 
 			if(littleSolver!=null)
 			{
-				littleSolver.setRunning(false);
+				littleSolver.endRunning();
 			}
 
 			if(feld!=null)
@@ -129,12 +130,9 @@ public class Control implements Initializable
 				littleHelper.startHelp();
 			}
 
-			btnLittleSolver.setStyle("-fx-border: none;\n" +
-					"    -fx-background-color: none;\n" +
-					"    -fx-background-image: url(\"image/blank_hover.jpg\");\n" +
-					"    -fx-background-repeat: stretch;\n" +
-					"    -fx-background-position: center center;\n" +
-					"    -fx-background-size: 100% 100%;");
+			btnLittleSolver.getStyleClass().remove("btn");
+			btnLittleSolver.getStyleClass().add("btn-active");
+
 
 			isAktiveLittleSolver = true;
 		}
@@ -146,7 +144,8 @@ public class Control implements Initializable
 		{
 			isAktiveLittleHelper = false;
 
-			btnLittleHelper.setStyle("");
+			btnLittleHelper.getStyleClass().remove("btn-active");
+			btnLittleHelper.getStyleClass().add("btn");
 
 			if(feld!=null)
 			{
@@ -163,12 +162,8 @@ public class Control implements Initializable
 				littleHelper.startHelp();
 			}
 
-			btnLittleHelper.setStyle("-fx-border: none;\n" +
-					"    -fx-background-color: none;\n" +
-					"    -fx-background-image: url(\"image/blank_hover.jpg\");\n" +
-					"    -fx-background-repeat: stretch;\n" +
-					"    -fx-background-position: center center;\n" +
-					"    -fx-background-size: 100% 100%;");
+			btnLittleHelper.getStyleClass().remove("btn");
+			btnLittleHelper.getStyleClass().add("btn-active");
 
 			isAktiveLittleHelper = true;
 		}
@@ -208,7 +203,7 @@ public class Control implements Initializable
 			littleHelper = new LittleHelper(feld, width, height);
 			littleSolver = new LittleSolver(feld, width, height, this);
 
-			InvalidationListener scaleFeld = (e) -> new Thread(() -> Platform.runLater(() -> scaleFeld())).start();
+			InvalidationListener scaleFeld = (e) -> new Thread(() -> Platform.runLater(this::scaleFeld)).start();
 
 			gridBoxMinen.heightProperty().addListener(scaleFeld);
 			gridBoxMinen.widthProperty().addListener(scaleFeld);
@@ -257,7 +252,7 @@ public class Control implements Initializable
 								}
 								else
 								{
-									temp.zeigen(true, false);
+									temp.zeigen(false, false);
 									if (temp.getSpeicherText().equals("0"))
 									{
 										zeigeumligend(temp.getX(), temp.getY());
@@ -312,17 +307,17 @@ public class Control implements Initializable
 				setzeBomben(value);
 			}
 
+			gridBoxMinen.setVisible(true);
+			gridBoxMinen.setAlignment(Pos.CENTER);
+			scaleFeld();
+			mainPane.setCenter(gridBoxMinen);
+
+			stardTimer();
+
 		}
-
-		gridBoxMinen.setVisible(true);
-		gridBoxMinen.setAlignment(Pos.CENTER);
-		scaleFeld();
-		mainPane.setCenter(gridBoxMinen);
-
-		stardTimer();
 	}
 
-	private int setzeBomben(Feld value)
+	private void setzeBomben(Feld value)
 	{
 		if (!value.getBombe())
 		{
@@ -350,7 +345,6 @@ public class Control implements Initializable
 		{
 			value.setSpeicherText("X");
 		}
-		return 0;
 	}
 
 	private int getFeldSize()
@@ -401,7 +395,7 @@ public class Control implements Initializable
 				littleSolver.forceColose();
 			}
 			stopTimer();
-			Platform.runLater(()->gewonnen());
+			Platform.runLater(this::gewonnen);
 		}
 	}
 
@@ -452,7 +446,7 @@ public class Control implements Initializable
 		}
 	}
 
-	//mehr performance whniger bugs
+	//mehr performance weniger bugs
 	void zeigeumligend(int x, int y)
 	{
 		int feldID = width*x + y;
@@ -468,12 +462,12 @@ public class Control implements Initializable
 					{
 						if (feld.get(feldID + i+j).getSpeicherText().equals("0"))
 						{
-							feld.get(feldID + i+j).zeigen(true, false);
+							feld.get(feldID + i+j).zeigen(false, false);
 							zeigeumligend(feld.get(feldID + i+j).getX(), feld.get(feldID + i+j).getY());
 						}
 						else if (!feld.get(feldID + i+j).getSpeicherText().equals("X"))
 						{
-							feld.get(feldID + i+j).zeigen(true, false);
+							feld.get(feldID + i+j).zeigen(false, false);
 						}
 
 					}
@@ -492,7 +486,7 @@ public class Control implements Initializable
 		return bombengefunden;
 	}
 
-	public int getAnzahlBombenGesamt()
+	int getAnzahlBombenGesamt()
 	{
 		return anzahlBombenGesamt;
 	}
@@ -502,7 +496,7 @@ public class Control implements Initializable
 		this.bombengefunden = bombengefunden;
 	}
 
-	public boolean isFertig()
+	boolean isFertig()
 	{
 		return fertig;
 	}

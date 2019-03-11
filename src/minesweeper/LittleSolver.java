@@ -11,7 +11,6 @@ public class LittleSolver extends LittleHelper implements Runnable
 	private Control control;
 	private int round = 0;
 	private final int speed = 20;
-	private int felderMakirt = 0;
 	private final boolean isDebug = false;
 
 	LittleSolver(ArrayList<Feld> feld, int width, int height, Control control)
@@ -23,7 +22,6 @@ public class LittleSolver extends LittleHelper implements Runnable
 	private boolean picRandom()
 	{
 		ArrayList<Feld> picabel = new ArrayList<>();
-		boolean foundOne = false;
 
 		for (Feld value: feld)
 		{
@@ -34,13 +32,12 @@ public class LittleSolver extends LittleHelper implements Runnable
 					return false;
 				}
 				picabel.add(value);
-				foundOne = true;
 			}
 		}
 
 
 
-		if(picabel.size()!=0&&foundOne)
+		if(picabel.size()!=0)
 		{
 			int random = ThreadLocalRandom.current().nextInt(0, picabel.size());
 
@@ -51,7 +48,7 @@ public class LittleSolver extends LittleHelper implements Runnable
 			}
 			else
 			{
-				Platform.runLater(()->picabel.get(random).zeigen(true, false));
+				Platform.runLater(()->picabel.get(random).zeigen(false, false));
 
 				if(picabel.get(random).getSpeicherText().equals("0"))
 				{
@@ -136,7 +133,7 @@ public class LittleSolver extends LittleHelper implements Runnable
 
 						if(feld.get(feldID + i + j).getMakirt() || feld.get(feldID + i + j).isGoastMarkirt())
 						{
-							felderMakirt ++;
+							break;
 						}
 					}
 				}
@@ -266,10 +263,7 @@ public class LittleSolver extends LittleHelper implements Runnable
 		{
 			if(value.isGoastMarkirt()&&!value.getMakirt())
 			{
-				Platform.runLater(()->
-				{
-					control.setBombengefunden(value.makiren()+control.getBombengefunden());
-				});
+				Platform.runLater(()->control.setBombengefunden(value.makiren()+control.getBombengefunden()));
 
 				try
 				{
@@ -279,7 +273,6 @@ public class LittleSolver extends LittleHelper implements Runnable
 				{
 					e.printStackTrace();
 				}
-				felderMakirt ++;
 				gotOne = true;
 			}
 			else if(value.getProzent()==-100)
@@ -401,7 +394,7 @@ public class LittleSolver extends LittleHelper implements Runnable
 	{
 		int feldID = width*value.getX()+value.getY();
 		int bombenGefunden = 0;
-		int bombenToFind = 0;
+		int bombenToFind;
 
 		if(value.isAufgedekt() && !value.getSpeicherText().equals("X") && !value.getSpeicherText().equals("0"))
 		{
@@ -421,10 +414,7 @@ public class LittleSolver extends LittleHelper implements Runnable
 				}
 			}
 
-			if(bombenGefunden>bombenToFind)
-			{
-				return true;
-			}
+			return bombenGefunden > bombenToFind;
 		}
 
 
@@ -435,7 +425,6 @@ public class LittleSolver extends LittleHelper implements Runnable
 	public void run()
 	{
 		round = 0;
-		felderMakirt = 0;
 		running = true;
 		forceClose = false;
 		int counter = 0;
@@ -499,11 +488,10 @@ public class LittleSolver extends LittleHelper implements Runnable
 			value.setGoastMarkirt(false);
 		}
 		control.setBombengefunden(0);
-		felderMakirt = 0;
 	}
 
-	void setRunning(boolean running)
+	void endRunning()
 	{
-		this.running = running;
+		this.running = false;
 	}
 }

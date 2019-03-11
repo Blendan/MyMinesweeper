@@ -17,6 +17,10 @@ public class Gui extends Application
 
 	}
 
+
+	/**
+	 * beendet TImer und LittleHelper damit die nicht im hintergrund weiterlaufen
+	 */
 	@Override
 	public void stop()
 	{

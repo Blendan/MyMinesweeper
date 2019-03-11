@@ -153,9 +153,9 @@ public class Feld extends Button
 		this.setDisable(true);
 		this.setText("");
 		aufgedekt = true;
-		if (bombe)
+		if (bombe&&isFinal)
 		{
-			if (isFinal&&!makirt&&!isWinn)
+			if (!makirt&&!isWinn)
 			{
 				this.setClass(styleBombeNotFound);
 			}
@@ -164,7 +164,7 @@ public class Feld extends Button
 				this.setClass(styleBombe);
 			}
 		}
-		else
+		else if(isFinal)
 		{
 			if(makirt&&!isWinn)
 			{
@@ -174,6 +174,10 @@ public class Feld extends Button
 			{
 				this.setClass(styleNumber);
 			}
+		}
+		else
+		{
+			this.setClass(styleNumber);
 		}
 	}
 

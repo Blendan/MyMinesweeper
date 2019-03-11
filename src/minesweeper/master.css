@@ -28,8 +28,21 @@
     -fx-background-size: 100% 100%;
 }
 
+.btn-active {
+    -fx-border: none;
+    -fx-background-color: none;
+    -fx-background-image: url("image/0.jpg");
+    -fx-background-repeat: stretch;
+    -fx-background-position: center center;
+    -fx-background-size: 100% 100%;
+}
+
 .btn:hover {
     -fx-background-image: url("image/blank_hover.jpg");
+}
+
+.btn-active:hover {
+    -fx-background-image: url("image/blank.jpg");
 }
 
 .feld {
