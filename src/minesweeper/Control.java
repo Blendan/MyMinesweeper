@@ -1,5 +1,6 @@
 package minesweeper;
 
+import fxPopup.Popup;
 import javafx.application.Platform;
 import javafx.beans.InvalidationListener;
 import javafx.fxml.FXML;
@@ -83,6 +84,12 @@ public class Control implements Initializable
 		btnStart.setOnAction((event)->startGame());
 		btnLittleHelper.setOnAction((event -> tootleLittleHelper()));
 		btnLittleSolver.setOnAction((event -> tootleLittleSolver()));
+
+		textAreaHeight.setOnAction(event->textAreaWidth.requestFocus());
+		textAreaWidth.setOnAction(event->textAreaCount.requestFocus());
+		textAreaCount.setOnAction(event->btnStart.requestFocus());
+
+
 	}
 
 	private void stardTimer()
@@ -182,7 +189,9 @@ public class Control implements Initializable
 		catch (Exception e)
 		{
 			weiter = false;
-			e.printStackTrace();
+			Popup dialog = new Popup("OK","Bitte nur Zahlen eingeben!","INPUT ERROR","-fx-background: gray;");
+			dialog.show();
+			//e.printStackTrace();
 		}
 
 		if (height > 0 && width > 0 && anzahlBombenGesamt > 0 && anzahlBombenGesamt < height * width && weiter)
@@ -316,6 +325,11 @@ public class Control implements Initializable
 			stardTimer();
 
 		}
+		else if(weiter)
+		{
+			Popup dialog = new Popup("OK","Bitte nur Zahlen > 0 eingeben!","INPUT ERROR","-fx-background: gray;");
+			dialog.show();
+		}
 	}
 
 	private void setzeBomben(Feld value)
@@ -440,7 +454,7 @@ public class Control implements Initializable
 
 	private void aufdeken(boolean isWinn)
 	{
-
+		btnStart.requestFocus();
 		for (Feld feld1 : feld)
 		{
 			feld1.zeigen(true,isWinn);

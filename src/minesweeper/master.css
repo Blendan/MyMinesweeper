@@ -41,6 +41,10 @@
     -fx-background-image: url("image/blank_hover.jpg");
 }
 
+.btn:focus {
+    -fx-background-image: url("image/blank_hover.jpg");
+}
+
 .btn-active:hover {
     -fx-background-image: url("image/blank.jpg");
 }

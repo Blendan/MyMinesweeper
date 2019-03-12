@@ -277,7 +277,7 @@ public class LittleSolver extends LittleHelper implements Runnable
 			}
 			else if(value.getProzent()==-100)
 			{
-				Platform.runLater(()->value.zeigen(true, false));
+				Platform.runLater(()->value.zeigen(false, false));
 
 				if(value.getSpeicherText().equals("0"))
 				{
