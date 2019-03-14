@@ -11,7 +11,6 @@ import java.io.IOException;
 
 public class Gui extends Application
 {
-	private Control control;
 	public Gui()
 	{
 
@@ -24,11 +23,7 @@ public class Gui extends Application
 	@Override
 	public void stop()
 	{
-		if(control.getLittleSolver()!=null)
-		{
-			control.getLittleSolver().forceColose();
-			control.stopTimer();
-		}
+		System.exit(0);
 	}
 
 	@Override
@@ -54,7 +49,5 @@ public class Gui extends Application
 		primaryStage.setScene(scene);
 		scene.getStylesheets().add(Gui.class.getResource("master.css").toExternalForm());
 		primaryStage.show();
-
-		control = (Control)loader.getController();
 	}
 }
