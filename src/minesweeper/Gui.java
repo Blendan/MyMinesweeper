@@ -41,11 +41,13 @@ public class Gui extends Application
 		try
 		{
 			root = (Parent)loader.load();
-		} catch (IOException e)
+		}
+		catch (IOException e)
 		{
 			e.printStackTrace();
 		}
 
+		assert root != null;
 		Scene scene = new Scene(root);
 
 		primaryStage.setTitle("Minesweeper");

@@ -24,6 +24,11 @@ public class LittleHelper
 
 		for (Feld value: feld)
 		{
+			pruefeUmliegend(value);
+		}
+
+		for (Feld value: feld)
+		{
 			value.showProzent();
 		}
 

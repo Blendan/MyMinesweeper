@@ -410,6 +410,13 @@ public class Control implements Initializable
 				littleSolver.forceColose();
 			}
 			stopTimer();
+			Popup dialog = new Popup();
+			dialog.setButtonText("OK");
+			dialog.setDialogMessage("Du Hast Gewonnen!!\nNach: "+timer.toString());
+			dialog.setDialogStyle("-fx-border-color: black; -fx-background-color: green");
+			dialog.setDialogHeight(150);
+			Platform.runLater(dialog::show);
+
 			Platform.runLater(this::gewonnen);
 		}
 	}

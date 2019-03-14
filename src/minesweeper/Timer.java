@@ -82,7 +82,7 @@ public class Timer implements Runnable
 			else
 			{
 
-				Platform.runLater(()-> lblTimer.setText(finalMinString +":"+ finalSString));
+				Platform.runLater(()-> lblTimer.setText(finalMinString +":"+ finalSString+":"+ finalMsString));
 			}
 			try
 			{
@@ -100,7 +100,41 @@ public class Timer implements Runnable
 		Platform.runLater(()-> lblTimer.setText(finalMinString +":"+ finalSString+":"+ finalMsString));
 	}
 
-	public void setRunning(boolean running)
+	@Override
+	public String toString()
+	{
+		String msString, sString, minString;
+		if(ms<10)
+		{
+			msString = "0"+ms;
+		}
+		else
+		{
+			msString = ms+"";
+		}
+
+		if(s<10)
+		{
+			sString = "0"+s;
+		}
+		else
+		{
+			sString = s+"";
+		}
+
+		if(min<10)
+		{
+			minString = "0"+min;
+		}
+		else
+		{
+			minString = min+"";
+		}
+
+		return minString +":"+ sString +":"+ msString;
+	}
+
+	void setRunning(boolean running)
 	{
 		this.running = running;
 	}
