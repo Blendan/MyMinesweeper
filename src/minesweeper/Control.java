@@ -65,7 +65,7 @@ public class Control implements Initializable
 	private boolean isAktiveLittleSolver = false;
 	private boolean isAktiveLittleHelper = false;
 
-	private  boolean fertig = false;
+	private boolean fertig = false;
 
 	private boolean timerIsRuning = false;
 
@@ -81,20 +81,20 @@ public class Control implements Initializable
 	{
 		timer = new Timer(lblTimer);
 
-		btnStart.setOnAction((event)->startGame());
+		btnStart.setOnAction((event) -> startGame());
 		btnLittleHelper.setOnAction((event -> tootleLittleHelper()));
 		btnLittleSolver.setOnAction((event -> tootleLittleSolver()));
 
-		textAreaHeight.setOnAction(event->textAreaWidth.requestFocus());
-		textAreaWidth.setOnAction(event->textAreaCount.requestFocus());
-		textAreaCount.setOnAction(event->btnStart.requestFocus());
+		textAreaHeight.setOnAction(event -> textAreaWidth.requestFocus());
+		textAreaWidth.setOnAction(event -> textAreaCount.requestFocus());
+		textAreaCount.setOnAction(event -> btnStart.requestFocus());
 
 
 	}
 
 	private void stardTimer()
 	{
-		if(!timerIsRuning)
+		if (!timerIsRuning)
 		{
 			timer.setRunning(true);
 			new Thread(timer).start();
@@ -110,21 +110,21 @@ public class Control implements Initializable
 
 	private void tootleLittleSolver()
 	{
-		if(isAktiveLittleSolver)
+		if (isAktiveLittleSolver)
 		{
 			isAktiveLittleSolver = false;
 
 			btnLittleSolver.getStyleClass().remove("btn-active");
 			btnLittleSolver.getStyleClass().add("btn");
 
-			if(littleSolver!=null)
+			if (littleSolver != null)
 			{
 				littleSolver.endRunning();
 			}
 
-			if(feld!=null)
+			if (feld != null)
 			{
-				for (Feld value: feld)
+				for (Feld value : feld)
 				{
 					value.hideProzent();
 				}
@@ -132,7 +132,7 @@ public class Control implements Initializable
 		}
 		else
 		{
-			if(littleHelper!=null)
+			if (littleHelper != null)
 			{
 				littleHelper.startHelp();
 			}
@@ -147,16 +147,16 @@ public class Control implements Initializable
 
 	private void tootleLittleHelper()
 	{
-		if(isAktiveLittleHelper)
+		if (isAktiveLittleHelper)
 		{
 			isAktiveLittleHelper = false;
 
 			btnLittleHelper.getStyleClass().remove("btn-active");
 			btnLittleHelper.getStyleClass().add("btn");
 
-			if(feld!=null)
+			if (feld != null)
 			{
-				for (Feld value: feld)
+				for (Feld value : feld)
 				{
 					value.hideProzent();
 				}
@@ -164,7 +164,7 @@ public class Control implements Initializable
 		}
 		else
 		{
-			if(littleHelper!=null)
+			if (littleHelper != null)
 			{
 				littleHelper.startHelp();
 			}
@@ -185,11 +185,10 @@ public class Control implements Initializable
 			width = Integer.parseInt(textAreaWidth.getText());
 			anzahlBombenGesamt = Integer.parseInt(textAreaCount.getText());
 
-		}
-		catch (Exception e)
+		} catch (Exception e)
 		{
 			weiter = false;
-			Popup dialog = new Popup("OK","Bitte nur Zahlen eingeben!","INPUT ERROR","-fx-background: gray;");
+			Popup dialog = new Popup("OK", "Bitte nur Zahlen eingeben!", "INPUT ERROR", "-fx-background: gray;");
 			dialog.show();
 			//e.printStackTrace();
 		}
@@ -325,9 +324,9 @@ public class Control implements Initializable
 			stardTimer();
 
 		}
-		else if(weiter)
+		else if (weiter)
 		{
-			Popup dialog = new Popup("OK","Bitte nur Zahlen > 0 eingeben!","INPUT ERROR","-fx-background: gray;");
+			Popup dialog = new Popup("OK", "Bitte nur Zahlen > 0 eingeben!", "INPUT ERROR", "-fx-background: gray;");
 			dialog.show();
 		}
 	}
@@ -338,15 +337,15 @@ public class Control implements Initializable
 		{
 			int bombenZaehler = 0;
 
-			int feldID = width*value.getX()+value.getY();
+			int feldID = width * value.getX() + value.getY();
 
 			for (int i = -1; i < 2; i++)
 			{
-				for (int j = -1*width; j <= width; j += width)
+				for (int j = -1 * width; j <= width; j += width)
 				{
-					if (feldID + i+j >= 0 && feldID + i+j < height * width && !(feldID%width == 0 && i == -1) && !(feldID%width == width-1 && i == 1))
+					if (feldID + i + j >= 0 && feldID + i + j < height * width && !(feldID % width == 0 && i == -1) && !(feldID % width == width - 1 && i == 1))
 					{
-						if (feld.get(feldID + i+j).getBombe())
+						if (feld.get(feldID + i + j).getBombe())
 						{
 							bombenZaehler++;
 						}
@@ -364,26 +363,26 @@ public class Control implements Initializable
 
 	private int getFeldSize()
 	{
-		if(height==width)
+		if (height == width)
 		{
-			if(gridBoxMinen.getHeight()>gridBoxMinen.getWidth())
+			if (gridBoxMinen.getHeight() > gridBoxMinen.getWidth())
 			{
-				return (int)gridBoxMinen.getWidth() / width;
+				return (int) gridBoxMinen.getWidth() / width;
 			}
 			else
 			{
-				return (int)gridBoxMinen.getHeight() / width;
+				return (int) gridBoxMinen.getHeight() / width;
 			}
 		}
-		else  if (gridBoxMinen.getHeight() > gridBoxMinen.getWidth()*((double) height/(double)width))
+		else if (gridBoxMinen.getHeight() > gridBoxMinen.getWidth() * ((double) height / (double) width))
 		{
 
-			return (int)gridBoxMinen.getWidth() /width;
+			return (int) gridBoxMinen.getWidth() / width;
 		}
 		else
 		{
 
-			return (int)gridBoxMinen.getHeight() / height;
+			return (int) gridBoxMinen.getHeight() / height;
 		}
 
 	}
@@ -392,9 +391,9 @@ public class Control implements Initializable
 	{
 		int size = getFeldSize();
 
-		for (Feld value: feld)
+		for (Feld value : feld)
 		{
-			value.setPrefSize(size,size);
+			value.setPrefSize(size, size);
 			value.setBackgroundSize(size);
 		}
 	}
@@ -402,17 +401,17 @@ public class Control implements Initializable
 
 	void gewinnPruefung()
 	{
-		if(bombengefunden == anzahlBombenGesamt)
+		if (bombengefunden == anzahlBombenGesamt)
 		{
 			fertig = true;
-			if(isAktiveLittleSolver)
+			if (isAktiveLittleSolver)
 			{
 				littleSolver.forceColose();
 			}
 			stopTimer();
 			Popup dialog = new Popup();
 			dialog.setButtonText("OK");
-			dialog.setDialogMessage("Du Hast Gewonnen!!\nNach: "+timer.toString());
+			dialog.setDialogMessage("Du Hast Gewonnen!!\nNach: " + timer.toString());
 			dialog.setDialogStyle("-fx-border-color: black; -fx-background-color: green");
 			dialog.setDialogHeight(150);
 			Platform.runLater(dialog::show);
@@ -438,14 +437,14 @@ public class Control implements Initializable
 	void verloren()
 	{
 		fertig = true;
-		if(isAktiveLittleSolver)
+		if (isAktiveLittleSolver)
 		{
 			littleSolver.forceColose();
 		}
 		//System.out.println(bombengefunden+" | "+anzahlBombenGesamt);
 		stopTimer();
 
-		Platform.runLater(()->
+		Platform.runLater(() ->
 		{
 			aufdeken(false);
 			Label temp = new Label("Verloren");
@@ -464,32 +463,32 @@ public class Control implements Initializable
 		btnStart.requestFocus();
 		for (Feld feld1 : feld)
 		{
-			feld1.zeigen(true,isWinn);
+			feld1.zeigen(true, isWinn);
 		}
 	}
 
 	//mehr performance weniger bugs
 	void zeigeumligend(int x, int y)
 	{
-		int feldID = width*x + y;
+		int feldID = width * x + y;
 		//System.out.println(feldID +"|"+x+"|"+y); //DEBUG
 
 		for (int i = -1; i < 2; i++)
 		{
-			for (int j = -1*width; j <= width; j += width)
+			for (int j = -1 * width; j <= width; j += width)
 			{
-				if (feldID + i+j >= 0 && feldID + i+j < height * width && !(feldID%width == 0 && i == -1) && !(feldID%width == width-1 && i == 1))
+				if (feldID + i + j >= 0 && feldID + i + j < height * width && !(feldID % width == 0 && i == -1) && !(feldID % width == width - 1 && i == 1))
 				{
-					if (!feld.get(feldID + i+j).getMakirt() && !feld.get(feldID + i+j).isAufgedekt())
+					if (!feld.get(feldID + i + j).getMakirt() && !feld.get(feldID + i + j).isAufgedekt())
 					{
-						if (feld.get(feldID + i+j).getSpeicherText().equals("0"))
+						if (feld.get(feldID + i + j).getSpeicherText().equals("0"))
 						{
-							feld.get(feldID + i+j).zeigen(false, false);
-							zeigeumligend(feld.get(feldID + i+j).getX(), feld.get(feldID + i+j).getY());
+							feld.get(feldID + i + j).zeigen(false, false);
+							zeigeumligend(feld.get(feldID + i + j).getX(), feld.get(feldID + i + j).getY());
 						}
-						else if (!feld.get(feldID + i+j).getSpeicherText().equals("X"))
+						else if (!feld.get(feldID + i + j).getSpeicherText().equals("X"))
 						{
-							feld.get(feldID + i+j).zeigen(false, false);
+							feld.get(feldID + i + j).zeigen(false, false);
 						}
 
 					}

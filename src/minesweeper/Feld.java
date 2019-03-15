@@ -6,7 +6,7 @@ import javafx.scene.paint.Color;
 
 public class Feld extends Button
 {
-	private int x,y;
+	private int x, y;
 	private String speicherText = "";
 
 
@@ -30,7 +30,7 @@ public class Feld extends Button
 	private boolean maybeBomb = false;
 	private boolean save = false;
 
-	Feld(int x,int y)
+	Feld(int x, int y)
 	{
 		this.x = x;
 		this.y = y;
@@ -46,23 +46,23 @@ public class Feld extends Button
 
 	void showProzent()
 	{
-		if(!makirt&&!aufgedekt)
+		if (!makirt && !aufgedekt)
 		{
-			if(goastMarkirt)
+			if (goastMarkirt)
 			{
 				this.setText("X");
 			}
-			else if(prozent==-100)
+			else if (prozent == -100)
 			{
 				this.setText("0");
 			}
-			else if(prozent==0)
+			else if (prozent == 0)
 			{
 				this.setText("?");
 			}
 			else
 			{
-				this.setText(prozent+"");
+				this.setText(prozent + "");
 			}
 		}
 		prozent = 0;
@@ -71,11 +71,11 @@ public class Feld extends Button
 
 	void addProzent(int plus)
 	{
-		if(goastMarkirt)
+		if (goastMarkirt)
 		{
 			prozent = 100;
 		}
-		else if(prozent != -100)
+		else if (prozent != -100)
 		{
 			if (plus == -100)
 			{
@@ -97,7 +97,7 @@ public class Feld extends Button
 
 	void setBackgroundSize(int size)
 	{
-		this.setStyle("-fx-background-size: "+size+" "+size);
+		this.setStyle("-fx-background-size: " + size + " " + size);
 	}
 
 	boolean IstFeld(int x, int y)
@@ -142,9 +142,9 @@ public class Feld extends Button
 	void setSpeicherText(String speicherText)
 	{
 		this.speicherText = speicherText;
-		if(!speicherText.equals("X"))
+		if (!speicherText.equals("X"))
 		{
-			styleNumber = "feld-"+speicherText;
+			styleNumber = "feld-" + speicherText;
 		}
 	}
 
@@ -153,9 +153,9 @@ public class Feld extends Button
 		this.setDisable(true);
 		this.setText("");
 		aufgedekt = true;
-		if (bombe&&isFinal)
+		if (bombe && isFinal)
 		{
-			if (!makirt&&!isWinn)
+			if (!makirt && !isWinn)
 			{
 				this.setClass(styleBombeNotFound);
 			}
@@ -164,9 +164,9 @@ public class Feld extends Button
 				this.setClass(styleBombe);
 			}
 		}
-		else if(isFinal)
+		else if (isFinal)
 		{
-			if(makirt&&!isWinn)
+			if (makirt && !isWinn)
 			{
 				this.setClass(styleWrong);
 			}
@@ -183,7 +183,7 @@ public class Feld extends Button
 
 	int makiren()
 	{
-		if(!aufgedekt)
+		if (!aufgedekt)
 		{
 			if (makirt)
 			{

@@ -28,61 +28,61 @@ public class Timer implements Runnable
 		s = 0;
 		min = 0;
 
-		String msString  = null, sString = null, minString = null;
+		String msString = null, sString = null, minString = null;
 
-		while(running)
+		while (running)
 		{
-			ms ++;
-			if(ms == 100)
+			ms++;
+			if (ms == 100)
 			{
 				ms = 0;
-				s ++;
-				if(s == 60)
+				s++;
+				if (s == 60)
 				{
 					s = 0;
-					min ++;
+					min++;
 				}
 			}
 
-			if(ms<10)
+			if (ms < 10)
 			{
-				msString = "0"+ms;
+				msString = "0" + ms;
 			}
 			else
 			{
-				msString = ms+"";
+				msString = ms + "";
 			}
 
-			if(s<10)
+			if (s < 10)
 			{
-				sString = "0"+s;
+				sString = "0" + s;
 			}
 			else
 			{
-				sString = s+"";
+				sString = s + "";
 			}
 
-			if(min<10)
+			if (min < 10)
 			{
-				minString = "0"+min;
+				minString = "0" + min;
 			}
 			else
 			{
-				minString = min+"";
+				minString = min + "";
 			}
 			String finalSString = sString;
 			String finalMsString = msString;
 			String finalMinString = minString;
 
-			if(min==0)
+			if (min == 0)
 			{
 
-				Platform.runLater(()-> lblTimer.setText(finalSString +":"+ finalMsString));
+				Platform.runLater(() -> lblTimer.setText(finalSString + ":" + finalMsString));
 			}
 			else
 			{
 
-				Platform.runLater(()-> lblTimer.setText(finalMinString +":"+ finalSString+":"+ finalMsString));
+				Platform.runLater(() -> lblTimer.setText(finalMinString + ":" + finalSString + ":" + finalMsString));
 			}
 			try
 			{
@@ -97,41 +97,41 @@ public class Timer implements Runnable
 		String finalMsString = msString;
 		String finalMinString = minString;
 
-		Platform.runLater(()-> lblTimer.setText(finalMinString +":"+ finalSString+":"+ finalMsString));
+		Platform.runLater(() -> lblTimer.setText(finalMinString + ":" + finalSString + ":" + finalMsString));
 	}
 
 	@Override
 	public String toString()
 	{
 		String msString, sString, minString;
-		if(ms<10)
+		if (ms < 10)
 		{
-			msString = "0"+ms;
+			msString = "0" + ms;
 		}
 		else
 		{
-			msString = ms+"";
+			msString = ms + "";
 		}
 
-		if(s<10)
+		if (s < 10)
 		{
-			sString = "0"+s;
+			sString = "0" + s;
 		}
 		else
 		{
-			sString = s+"";
+			sString = s + "";
 		}
 
-		if(min<10)
+		if (min < 10)
 		{
-			minString = "0"+min;
+			minString = "0" + min;
 		}
 		else
 		{
-			minString = min+"";
+			minString = min + "";
 		}
 
-		return minString +":"+ sString +":"+ msString;
+		return minString + ":" + sString + ":" + msString;
 	}
 
 	void setRunning(boolean running)

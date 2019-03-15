@@ -1,0 +1,1 @@
+javapackager -deploy -native -outdir . -outfile MyMinesweeper -srcdir . -srcfiles minesweeper.jar -appclass minesweeper.Gui -name MyMinesweeper -title MyMinesweeper

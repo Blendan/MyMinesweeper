@@ -18,7 +18,7 @@ public class Popup
 	private String dialogTitel;
 
 	private String dialogStyle = "";
-	private  String dialogExitButtonStyle = "";
+	private String dialogExitButtonStyle = "";
 
 	private int dialogWidth = 200, dialogHeight = 70;
 
@@ -75,7 +75,7 @@ public class Popup
 		dialogMesage.getChildren().add(new Text(dialogMessage));
 
 		Button exitButton = new Button(buttonText);
-		exitButton.setOnAction((event)-> dialog.close());
+		exitButton.setOnAction((event) -> dialog.close());
 		exitButton.setStyle(dialogExitButtonStyle);
 		dialogButton.getChildren().add(exitButton);
 

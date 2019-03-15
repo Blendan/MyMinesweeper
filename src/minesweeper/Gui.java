@@ -35,9 +35,8 @@ public class Gui extends Application
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("main.fxml"));
 		try
 		{
-			root = (Parent)loader.load();
-		}
-		catch (IOException e)
+			root = (Parent) loader.load();
+		} catch (IOException e)
 		{
 			e.printStackTrace();
 		}

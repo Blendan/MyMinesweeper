@@ -17,17 +17,17 @@ public class LittleHelper
 
 	void startHelp()
 	{
-		for (Feld value: feld)
+		for (Feld value : feld)
 		{
 			pruefeUmliegend(value);
 		}
 
-		for (Feld value: feld)
+		for (Feld value : feld)
 		{
 			pruefeUmliegend(value);
 		}
 
-		for (Feld value: feld)
+		for (Feld value : feld)
 		{
 			value.showProzent();
 		}
@@ -40,9 +40,9 @@ public class LittleHelper
 		int felderOffen = 9;
 		int felderMakirt = 0;
 
-		int feldID = width*value.getX()+value.getY();
+		int feldID = width * value.getX() + value.getY();
 
-		if(value.isAufgedekt() && !value.getSpeicherText().equals("X") && !value.getSpeicherText().equals("0"))
+		if (value.isAufgedekt() && !value.getSpeicherText().equals("X") && !value.getSpeicherText().equals("0"))
 		{
 			int bombenToFind = Integer.parseInt(value.getSpeicherText());
 
@@ -54,17 +54,17 @@ public class LittleHelper
 					{
 						if (feld.get(feldID + i + j).getMakirt() || feld.get(feldID + i + j).isAufgedekt() || feld.get(feldID + i + j).isGoastMarkirt())
 						{
-							felderOffen --;
+							felderOffen--;
 						}
 
-						if(feld.get(feldID + i + j).getMakirt() || feld.get(feldID + i + j).isGoastMarkirt())
+						if (feld.get(feldID + i + j).getMakirt() || feld.get(feldID + i + j).isGoastMarkirt())
 						{
-							felderMakirt ++;
+							felderMakirt++;
 						}
 					}
 					else
 					{
-						felderOffen --;
+						felderOffen--;
 					}
 				}
 			}
@@ -73,12 +73,12 @@ public class LittleHelper
 
 			int prozent = 0;
 
-			if(felderMakirt<bombenToFind)
+			if (felderMakirt < bombenToFind)
 			{
-				prozent = (int)(((double) (bombenToFind-felderMakirt)/(double)felderOffen)*100);
+				prozent = (int) (((double) (bombenToFind - felderMakirt) / (double) felderOffen) * 100);
 
 			}
-			else if(felderMakirt>=bombenToFind)
+			else if (felderMakirt >= bombenToFind)
 			{
 				prozent = -100;
 				gotOne = true;
@@ -94,7 +94,7 @@ public class LittleHelper
 						{
 							feld.get(feldID + i + j).addProzent(prozent);
 
-							if(prozent==100)
+							if (prozent == 100)
 							{
 								feld.get(feldID + i + j).setGoastMarkirt(true);
 								gotOne = true;
